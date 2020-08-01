@@ -10,6 +10,14 @@ const theme: ThemeOptions = {
       xl: 1200,
     },
   },
+  typography: {
+    body1: {
+      fontFamily: 'Poppings, Roboto, sans-serif',
+    },
+    body2: {
+      fontFamily: 'Poppings, Roboto, sans-serif',
+    }
+  },
   overrides: {
     MuiCssBaseline: {
       '@global': {

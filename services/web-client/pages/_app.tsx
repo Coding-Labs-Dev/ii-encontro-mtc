@@ -3,10 +3,12 @@ import { AppProps } from 'next/app';
 import Theme from 'styles/Theme';
 import Head from 'next/head';
 import { IntlProvider } from 'react-intl';
+import 'typeface-roboto';
+import 'typeface-poppins';
+
 
 function App({ Component, pageProps }: AppProps) {
   React.useEffect(() => {
-    // Remove the server-side injected CSS.
     const jssStyles = document.querySelector('#jss-server-side');
     jssStyles?.parentElement?.removeChild(jssStyles);
   }, []);
