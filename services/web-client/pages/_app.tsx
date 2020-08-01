@@ -2,6 +2,7 @@ import React from 'react';
 import { AppProps } from 'next/app';
 import Theme from 'styles/Theme';
 import Head from 'next/head';
+import { IntlProvider } from 'react-intl';
 
 function App({ Component, pageProps }: AppProps) {
   React.useEffect(() => {
@@ -31,9 +32,11 @@ function App({ Component, pageProps }: AppProps) {
         <link rel="manifest" href="/manifest.json" />
         <link rel="shortcut icon" href="/favicon/favicon.ico" />
       </Head>
-      <Theme>
-        <Component {...pageProps} />
-      </Theme>
+      <IntlProvider locale="en">
+        <Theme>
+          <Component {...pageProps} />
+        </Theme>
+      </IntlProvider>
     </>
   );
 }
