@@ -1,0 +1,11 @@
+version: '3.7'
+
+services:
+  web-client:
+    build: ./services/web-client
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./services/web-client:/usr/src/app
+      - /usr/src/app/node_modules/
+    entrypoint: yarn dev
