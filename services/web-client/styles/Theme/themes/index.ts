@@ -11,6 +11,12 @@ const theme: ThemeOptions = {
     },
   },
   typography: {
+    h1: {
+      fontWeight: 700
+    },
+    h5: {
+      fontStyle: "italic",
+    },
     body1: {
       fontFamily: 'Poppings, Roboto, sans-serif',
     },
