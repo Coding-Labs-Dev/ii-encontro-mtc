@@ -90,28 +90,34 @@
     "dates": [
       [
         {
+          "id": "campinas_06_03",
           "location": "Campinas",
           "date": "06/03"
         },
         {
+          "id": "são_paulo_13_03",
           "location": "São Paulo",
-          "date": "11/03"
+          "date": "13/03"
         },
         {
+          "id": "brasília_20_03",
           "location": "Brasília",
           "date": "20/03"
         }
       ],
       [
         {
+          "id": "campinas_07_03",
           "location": "Campinas",
           "date": "07/03"
         },
         {
+          "id": "são_paulo_14_03",
           "location": "São Paulo",
           "date": "14/03"
         },
         {
+          "id": "brasília_21_03",
           "location": "Brasília",
           "date": "21/03"
         }
@@ -120,53 +126,63 @@
     "schedule": [
       [
         {
+          "id": "sat_8h00",
           "startTime": "8h00",
           "endTime": "8h40",
           "description": "Recepção e entrega de crachás e café"
         },
         {
+          "id": "sat_9h00",
           "startTime": "9h00",
           "endTime": "9h30",
           "description": "Abertura e palavra dos convidados e organizadores"
         },
         {
+          "id": "sat_9h30",
           "startTime": "9h30",
           "endTime": "11h30",
           "description": "Sucesso com Uso de Fórmulas Chinesas em Infertilidade",
           "speaker": "Prof. Dra. Peng Zhou MD"
         },
         {
+          "id": "sat_11h30",
           "startTime": "11h30",
           "endTime": "12h30",
           "description": "A importância das Fórmulas Chinesas em Pediatria",
           "speaker": "Prof. Paulo Américo Vieira"
         },
         {
+          "id": "sat_12h30",
           "startTime": "12h30",
           "endTime": "14h00",
           "description": "Almoço"
         },
         {
+          "id": "sat_14h00",
           "startTime": "14h00",
           "endTime": "15h00",
           "description": "Uso de Fórmulas e Dietoterapia Chinesa na Remissão de Doenças Auto-imunes",
           "speaker": "Prof. Eleonora Comucci"
         },
         {
+          "id": "sat_15h00",
           "startTime": "15h00",
           "endTime": "16h00",
           "description": [
             {
+              "id": "campinas_sat_15h00",
               "location": "Campinas",
               "description": "O aprendizado da Fitoteria Chinesa na China",
               "speaker": "Dra. Karine Calligaris"
             },
             {
+              "id": "são_paulo_sat_15h00",
               "location": "São Paulo",
               "description": "Em definição",
               "speaker": "Dr. Wu Tou Kwang"
             },
             {
+              "id": "brasília_sat_15h00",
               "location": "Brasília",
               "description": "Diagnóstico pelo Pulso das Fórmulas Tradicionais Chinesas",
               "speaker": "Dr. Henrique Afonso"
@@ -174,20 +190,24 @@
           ]
         },
         {
+          "id": "sat_16h00",
           "startTime": "16h00",
           "endTime": "17h00",
           "description": [
             {
+              "id": "campinas_sat_16h00",
               "location": "Campinas",
               "description": "Como eu trato",
               "speaker": "Prof. Dra. Peng Zhou"
             },
             {
+              "id": "são_paulo_sat_16h00",
               "location": "São Paulo",
               "description": "Climaterio e Menopausa com Medicina Chinesa",
               "speaker": "Prof. Wilson Marino"
             },
             {
+              "id": "brasília_sat_16h00",
               "location": "Brasília",
               "description": "Fórmulas Chinesas no Tratamento de Dores Crônicas",
               "speaker": "Prof. Leonardo Lombardi Silva"
@@ -195,20 +215,24 @@
           ]
         },
         {
+          "id": "sat_17h00",
           "startTime": "17h00",
           "endTime": "18h00",
           "description": [
             {
+              "id": "campinas_sat_17h00",
               "location": "Campinas",
               "description": "Estudo de Acupuntura em Casos de Hemofilia",
               "speaker": "Dra. Karen de Oliveira"
             },
             {
+              "id": "são_paulo_sat_17h00",
               "location": "São Paulo",
               "description": "Diagnóstico Radioestesico para Uso de Fórmulas Chinesas",
               "speaker": "Prof. Sergio Areias"
             },
             {
+              "id": "brasília_sat_17h00",
               "location": "Brasília",
               "description": "Acupuntura Esoterica como Aprimoramento da Consciência",
               "speaker": "Prof. Ubyrajara Graça Nery"
@@ -216,6 +240,7 @@
           ]
         },
         {
+          "id": "sat_18h00",
           "startTime": "18h00",
           "endTime": "19h00",
           "description": "Talkshow com os participantes e convidados"
@@ -223,42 +248,50 @@
       ],
       [
         {
+          "id": "sun_8h30",
           "startTime": "8h30",
           "endTime": "8h55",
           "description": "Café para os participantes"
         },
         {
+          "id": "sun_9h00",
           "startTime": "9h00",
           "endTime": "9h11",
           "description": "Sucesso com Uso de Fórmulas Chinesas em Tratamentos de Tumores e Câncer",
           "speaker": "Prof. Dr. Hao Zheng MD"
         },
         {
+          "id": "sun_11h00",
           "startTime": "11h00",
           "endTime": "12h00",
           "description": "Os Benefícios e Experiências Clínicas da Fitoterapia Chinesa nos Tratamentos",
           "speaker": "Dr. Elder Feltrin"
         },
         {
+          "id": "sun_12h00",
           "startTime": "12h00",
           "endTime": "13h30",
           "description": "Almoço"
         },
         {
+          "id": "sun_13h30",
           "startTime": "13h30",
           "endTime": "14h30",
           "description": [
             {
+              "id": "campinas_sun_13h30",
               "location": "Campinas",
               "description": "Uso do Liu Wei na disfunção sexual",
               "speaker": "Profa. Karine Calligaris"
             },
             {
+              "id": "são_paulo_sun_13h30",
               "location": "São Paulo",
               "description": "Uso do Liu Wei na disfunção sexual",
               "speaker": "Profa. Karine Calligaris"
             },
             {
+              "id": "brasília_sun_13h30",
               "location": "Brasília",
               "description": "Tratamento de Psoriase com Fórmulas da MTC",
               "speaker": "Prof. Fernando Braga"
@@ -266,23 +299,27 @@
           ]
         },
         {
+          "id": "sun_14h30",
           "startTime": "14h30",
           "endTime": "15h30",
           "description": "Experiência Clínica de Fórmulas Chinesas na Deficiência dos Rins",
           "speaker": "Prof. Paulo Américo Vieira"
         },
         {
+          "id": "sun_15h30",
           "startTime": "15h30",
           "endTime": "16h30",
           "description": "Medicina Chinesa nas Doenças Degenerativas",
           "speaker": "Dra. Liane Bering"
         },
         {
+          "id": "sun_16h30",
           "startTime": "16h30",
           "endTime": "17h00",
           "description": "Perguntas abertas ao público"
         },
         {
+          "id": "sun_17h00",
           "startTime": "17h00",
           "description": "Encerramento e Entrega de Certificados e sorteio de brindes aos participantes"
         }
