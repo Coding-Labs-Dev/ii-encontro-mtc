@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Grid, Typography, Card } from '@material-ui/core';
+import { Box, Grid, Typography } from '@material-ui/core';
 import bemHelper from 'lib/bem';
 
 import { Props } from './ProgrammeTable';
@@ -18,19 +18,19 @@ const ProgrammeTable: React.FC<Props> = ({ dates, schedule }) => (
       spacing={2}
     >
       {dates.map((date, i, arr) => (
-        <>
-          <Grid item key={date.location.toLowerCase()}>
+        <React.Fragment key={date.id}>
+          <Grid item>
             <Typography variant="body2">
               {`${date.location} - ${date.date}`}
             </Typography>
           </Grid>
           {i < arr.length - 1 ? <Grid item>•</Grid> : ''}
-        </>
+        </React.Fragment>
       ))}
     </Grid>
     <Grid container direction="column">
       {schedule.map((item) => (
-        <Grid item xs={12} key={item.startTime} className={bem.el('row')}>
+        <Grid item xs={12} key={item.id} className={bem.el('row')}>
           <Box py={2} px={1}>
             <Grid container>
               <Grid item xs={12} lg={2} container alignItems="center">
@@ -50,7 +50,7 @@ const ProgrammeTable: React.FC<Props> = ({ dates, schedule }) => (
                   spacing={2}
                 >
                   {item.description.map((desc) => (
-                    <Grid item key={desc.description.toLowerCase()}>
+                    <Grid item key={desc.id}>
                       <Typography variant="caption" color="primary">
                         {desc.location}
                       </Typography>
