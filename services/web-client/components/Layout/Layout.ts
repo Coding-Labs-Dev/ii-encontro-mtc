@@ -6,5 +6,5 @@ export interface Props {
     description: string;
     url: string;
     image: string;
-  }
+  };
 }

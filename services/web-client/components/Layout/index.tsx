@@ -2,9 +2,9 @@ import React from 'react';
 import Head from 'next/head';
 import { NextPage } from 'next';
 
-import { Props } from './Layout';
 import Footer from 'components/Footer';
 import { Box } from '@material-ui/core';
+import { Props } from './Layout';
 
 const Layout: NextPage<Props> = ({ children, title, description, og }) => (
   <>

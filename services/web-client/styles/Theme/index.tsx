@@ -12,7 +12,7 @@ const selectedTheme = responsiveFontSizes(
   createMuiTheme({
     ...globalTheme,
     palette: { ...palette },
-  })
+  }),
 );
 
 const Theme: React.FC = ({ children }) => (

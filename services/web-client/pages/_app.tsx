@@ -6,7 +6,6 @@ import { IntlProvider } from 'react-intl';
 import 'typeface-roboto';
 import 'typeface-poppins';
 
-
 function App({ Component, pageProps }: AppProps) {
   React.useEffect(() => {
     const jssStyles = document.querySelector('#jss-server-side');

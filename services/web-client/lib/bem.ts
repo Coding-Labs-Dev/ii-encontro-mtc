@@ -2,6 +2,7 @@ const unique = (arr: Array<any>) => [...new Set(arr)];
 
 export class BEM {
   readonly stylesheet: { [key: string]: string };
+
   readonly bemBase: string;
 
   constructor(stylesheet: { [key: string]: string }, bemBase: string) {
@@ -19,19 +20,21 @@ export class BEM {
 
   // b-Block
   b(...rest: any[]) {
-    return this.getStyles(unique([this.blockName(), ...rest]));
+    return this.getStyles(unique([this.blockName(), ...rest])).join(' ');
   }
 
   // b-Block__Element
   el(elName: string, ...rest: any[]) {
-    return this.getStyles(unique([`${this.blockName()}__${elName}`, ...rest]));
+    return this.getStyles(
+      unique([`${this.blockName()}__${elName}`, ...rest])
+    ).join(' ');
   }
 
   // b-Block--Modifier
   mod(modName: string, ...rest: any[]) {
     return this.getStyles(
       unique([this.b(), `${this.blockName()}--${modName}`, ...rest])
-    );
+    ).join(' ');
   }
 
   // b-Block__Element--Modifier
@@ -42,7 +45,7 @@ export class BEM {
         `${this.blockName()}__${elName}--${modName}`,
         ...rest,
       ])
-    );
+    ).join(' ');
   }
 }
 

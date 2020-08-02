@@ -15,8 +15,6 @@ import Background from './Background';
 
 const t = withPrefix('Hero');
 
-// import { Container } from './styles';
-
 const Hero: React.FC = () => {
   const { palette } = useTheme<Theme>();
   return (
@@ -37,10 +35,16 @@ const Hero: React.FC = () => {
                   <Box>
                     <Grid container alignItems="center" spacing={1}>
                       <Grid item>
-                        <Schedule fontSize="small" style={{ color: palette.common.white}} />
+                        <Schedule
+                          fontSize="small"
+                          style={{ color: palette.common.white }}
+                        />
                       </Grid>
                       <Grid item>
-                        <Typography style={{ color: palette.common.white}} variant="body2">
+                        <Typography
+                          style={{ color: palette.common.white }}
+                          variant="body2"
+                        >
                           {t('Date')}
                         </Typography>
                       </Grid>
@@ -51,10 +55,16 @@ const Hero: React.FC = () => {
                   <Box>
                     <Grid container alignItems="center">
                       <Grid item>
-                        <LocationOn style={{ color: palette.common.white}} fontSize="small" />
+                        <LocationOn
+                          style={{ color: palette.common.white }}
+                          fontSize="small"
+                        />
                       </Grid>
                       <Grid item>
-                        <Typography style={{ color: palette.common.white}} variant="body2">
+                        <Typography
+                          style={{ color: palette.common.white }}
+                          variant="body2"
+                        >
                           {t('Locations')}
                         </Typography>
                       </Grid>
@@ -65,7 +75,7 @@ const Hero: React.FC = () => {
               <Typography color="primary" variant="h1">
                 {t('Title')}
               </Typography>
-              <Typography style={{ color: palette.common.white}} variant="h5">
+              <Typography style={{ color: palette.common.white }} variant="h5">
                 {t('Subtitle')}
               </Typography>
             </Box>

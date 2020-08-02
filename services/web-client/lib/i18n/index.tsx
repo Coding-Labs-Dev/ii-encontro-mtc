@@ -12,9 +12,7 @@ const t = (id: string, values = {}, formatted = false) => {
   return <FormattedMessage id={id} defaultMessage={message} values={values} />;
 };
 
-export const withPrefix = (prefix: string) => (
-  key: string,
-  ...rest: [Object, boolean]
-) => t(`${prefix}.${key}`, ...rest);
+export const withPrefix = (prefix: string) => (key: string, ...rest: any) =>
+  t(`${prefix}.${key}`, ...rest);
 
 export default t;

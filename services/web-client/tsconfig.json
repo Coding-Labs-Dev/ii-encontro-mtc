@@ -20,10 +20,10 @@
     "baseUrl": "./",
     "paths": {
       "~/*": ["./"],
-      "components/*": ["./components/*"],
-      "pages/*": ["./pages/*"],
-      "styles/*": ["./styles/*"],
-      "lib/*": ["./lib"],
+      "@components/*": ["./components/*"],
+      "@pages/*": ["./pages/*"],
+      "@styles/*": ["./styles/*"],
+      "@lib/*": ["./lib"],
     }
   },
   "exclude": ["node_modules"],
