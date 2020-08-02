@@ -4,15 +4,22 @@ import { pick } from 'dot-object';
 
 import messages from './messages';
 
-const t = (id: string, values = {}, formatted = false) => {
+const t = (id: string) => {
   const message: string | undefined = pick(id, messages);
   if (!message) throw new Error(`Can't find translation for ${id}`);
-  if (!Object.keys(values).length && !formatted) return message;
+  return message;
+};
 
+export const formatted = (id: string, values = {}) => {
+  const message: string | undefined = pick(id, messages);
+  if (!message) throw new Error(`Can't find translation for ${id}`);
   return <FormattedMessage id={id} defaultMessage={message} values={values} />;
 };
 
-export const withPrefix = (prefix: string) => (key: string, ...rest: any) =>
-  t(`${prefix}.${key}`, ...rest);
+export const withPrefix = (prefix: string) => (key: string) =>
+  t(`${prefix}.${key}`);
+
+export const withFormat = (prefix: string) => (key: string, ...rest: any) =>
+  formatted(`${prefix}.${key}`, ...rest);
 
 export default t;
