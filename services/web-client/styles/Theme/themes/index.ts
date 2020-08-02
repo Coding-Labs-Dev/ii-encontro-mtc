@@ -12,6 +12,7 @@ const theme: ThemeOptions = {
   },
   typography: {
     h1: {
+      fontSize: '5.5rem',
       fontWeight: 700
     },
     h5: {
