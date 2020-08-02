@@ -13,17 +13,20 @@ const theme: ThemeOptions = {
   typography: {
     h1: {
       fontSize: '5.5rem',
-      fontWeight: 700
+      fontWeight: 700,
+    },
+    h2: {
+      fontWeight: 700,
     },
     h5: {
-      fontStyle: "italic",
+      fontStyle: 'italic',
     },
     body1: {
       fontFamily: 'Poppings, Roboto, sans-serif',
     },
     body2: {
       fontFamily: 'Poppings, Roboto, sans-serif',
-    }
+    },
   },
   overrides: {
     MuiCssBaseline: {
@@ -51,7 +54,7 @@ const theme: ThemeOptions = {
       disableRipple: true,
       disableTouchRipple: true,
       disableFocusRipple: true,
-    }
+    },
   },
 };
 
