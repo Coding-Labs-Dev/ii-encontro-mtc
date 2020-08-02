@@ -37,10 +37,10 @@ const Hero: React.FC = () => {
                   <Box>
                     <Grid container alignItems="center" spacing={1}>
                       <Grid item>
-                        <Schedule fontSize="small" style={{ color: 'white'}} />
+                        <Schedule fontSize="small" style={{ color: palette.common.white}} />
                       </Grid>
                       <Grid item>
-                        <Typography style={{ color: 'white'}} variant="body2">
+                        <Typography style={{ color: palette.common.white}} variant="body2">
                           {t('Date')}
                         </Typography>
                       </Grid>
@@ -51,10 +51,10 @@ const Hero: React.FC = () => {
                   <Box>
                     <Grid container alignItems="center">
                       <Grid item>
-                        <LocationOn style={{ color: 'white'}} fontSize="small" />
+                        <LocationOn style={{ color: palette.common.white}} fontSize="small" />
                       </Grid>
                       <Grid item>
-                        <Typography style={{ color: 'white'}} variant="body2">
+                        <Typography style={{ color: palette.common.white}} variant="body2">
                           {t('Locations')}
                         </Typography>
                       </Grid>
@@ -62,10 +62,10 @@ const Hero: React.FC = () => {
                   </Box>
                 </Grid>
               </Grid>
-              <Typography style={{ color: palette.warning.main }} variant="h1">
+              <Typography color="primary" variant="h1">
                 {t('Title')}
               </Typography>
-              <Typography style={{ color: 'white'}} variant="h5">
+              <Typography style={{ color: palette.common.white}} variant="h5">
                 {t('Subtitle')}
               </Typography>
             </Box>

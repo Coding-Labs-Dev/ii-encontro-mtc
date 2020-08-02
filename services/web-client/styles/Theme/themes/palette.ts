@@ -7,18 +7,14 @@ import { PaletteOptions } from '@material-ui/core/styles/createPalette';
 // $swatch_5: #6fbb99;
 // $swatch_6: #f29666;
 // $swatch_7: #a7704b;
-// $danger: #ffe47b;
 
 const palette: PaletteOptions = {
   type: 'light',
   primary: {
-    main: '#294435',
+    main: '#ffe47b',
   },
   secondary: {
     main: '#6fbb99',
-  },
-  warning: {
-    main: '#ffe47b',
   },
 };
 
