@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Grid, Container, Typography } from '@material-ui/core';
+import { Box, Grid, Container } from '@material-ui/core';
 import { withPrefix } from 'lib/i18n';
 import bemHelper from 'lib/bem';
 import { speakers } from 'lib/data.json';
@@ -19,15 +19,12 @@ const Speakers: React.FC = () => (
     <Container>
       <Grid container justify="center" alignItems="flex-start" spacing={2}>
         <Grid item xs={12}>
-          <Typography variant="h4" align="center">
-            <Title title={t('Title')} />
-          </Typography>
+          <Title title={t('Title')} />
         </Grid>
         <div className={bem.el('grid')}>
           {speakers.map((item) => (
-            <Grid container justify="center">
+            <Grid container justify="center" key={item.id}>
               <SpeakerCard
-                key={item.id}
                 image={item.image}
                 name={item.name}
                 description={item.description}

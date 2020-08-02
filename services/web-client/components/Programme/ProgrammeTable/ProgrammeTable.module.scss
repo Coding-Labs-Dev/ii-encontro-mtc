@@ -1,0 +1,16 @@
+.bem-ProgrammeTable {
+  &__header {
+    background-color: #ec5a53;
+    color: #fff;
+    padding: 8px 0;
+  }
+
+  &__row {
+    border-bottom: 1px solid #e0e0e0;
+
+    &:nth-of-type(even) {
+      background: #fdefee;
+    }
+  }
+
+}

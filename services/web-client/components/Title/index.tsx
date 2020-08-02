@@ -12,10 +12,12 @@ const Title: React.FC<Props> = ({ title, short }) => (
   <div className={bem.b()}>
     <Box my={5}>
       <div className={bem.el('outlined')}>
-        <Typography variant="h1">{short || title}</Typography>
+        <Typography align="center" variant="h1">
+          {short || title}
+        </Typography>
       </div>
       <div className={bem.el('main')}>
-        <Typography variant="h2" color="primary">
+        <Typography align="center" variant="h2" color="primary">
           {title}
         </Typography>
       </div>

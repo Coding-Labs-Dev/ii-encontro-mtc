@@ -15,6 +15,9 @@ const messages = {
   Speakers: {
     Title: 'Palestrantes',
   },
+  Programme: {
+    Title: 'Programação',
+  },
 };
 
 export default messages;
