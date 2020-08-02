@@ -72,7 +72,7 @@ const Hero: React.FC = () => {
                   </Box>
                 </Grid>
               </Grid>
-              <Typography color="primary" variant="h1">
+              <Typography color="secondary" variant="h1">
                 {t('Title')}
               </Typography>
               <Typography style={{ color: palette.common.white }} variant="h5">

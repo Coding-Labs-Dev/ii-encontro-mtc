@@ -1,0 +1,18 @@
+.bem-SpeakerCard {
+  max-width: 255px;
+
+  &__media {
+    position: relative;
+    div {
+      height: 255px;
+      width: 255px;
+    }
+  }
+
+  &__flag {
+    position: absolute;
+    width: 50px;
+    top: 0;
+    right: 0;
+  }
+}

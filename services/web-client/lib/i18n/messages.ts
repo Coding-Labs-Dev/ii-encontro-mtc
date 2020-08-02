@@ -11,7 +11,10 @@ const messages = {
     Date: 'Março/2021',
     Title: 'II Encontro Internacional de MTC',
     Subtitle: 'Rompendo os Paradigmas da Saúde no Brasil pela M.T.C.',
-  }
+  },
+  Speakers: {
+    Title: 'Palestrantes',
+  },
 };
 
 export default messages;

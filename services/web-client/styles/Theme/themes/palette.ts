@@ -12,10 +12,10 @@ import { PaletteOptions } from '@material-ui/core/styles/createPalette';
 const palette: PaletteOptions = {
   type: 'light',
   primary: {
-    main: '#ffe47b',
+    main: '#ec5a53',
   },
   secondary: {
-    main: '#ec5a53',
+    main: '#ffe47b',
   },
 };
 
