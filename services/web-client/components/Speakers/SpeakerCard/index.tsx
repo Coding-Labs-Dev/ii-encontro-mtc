@@ -15,7 +15,7 @@ const SpeakerCard: React.FC<Props> = ({
   international,
 }) => (
   <div className={bem.b()}>
-    <Card elevation={2}>
+    <Card elevation={2} className={bem.el('card')}>
       <div className={bem.el('media')}>
         {international && (
           <img
@@ -27,7 +27,7 @@ const SpeakerCard: React.FC<Props> = ({
         <CardMedia image={image} title={name} />
       </div>
       <CardContent>
-        <Typography align="center" variant="h6" color="primary">
+        <Typography variant="h6" color="primary">
           {name}
         </Typography>
         {description && <Typography variant="body2">{description}</Typography>}

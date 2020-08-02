@@ -1,11 +1,16 @@
 .bem-SpeakerCard {
-  max-width: 255px;
+  max-width: 290px;
+  height: 100%;
+
+  &__card {
+    height: 100%;
+  }
 
   &__media {
     position: relative;
     div {
-      height: 255px;
-      width: 255px;
+      height: 290px;
+      width: 290px;
     }
   }
 

@@ -1,0 +1,88 @@
+{
+  "speakers": [
+    {
+      "id": "speaker_dr_hao_zheng_md",
+      "name": "Dr. Hao Zheng MD",
+      "description": "Prof. da Universidade de Tian Jin",
+      "international": true,
+      "image": "/images/speakers/hao-zheng.jpg"
+    },
+    {
+      "id": "speaker_dra_peng_zhou_md",
+      "name": "Dra. Peng Zhou MD",
+      "description": "Profa. da Universidade de Tian Jin",
+      "international": true,
+      "image": "/images/speakers/peng-zhou.jpg"
+    },
+    {
+      "id": "speaker_prof_paulo_américo_vieira",
+      "name": "Prof. Paulo Américo Vieira",
+      "description": "Introdutor das Fórmulas Chinesas no Brasil",
+      "international": false,
+      "image": "/images/speakers/paulo-americo.jpg"
+    },
+    {
+      "id": "speaker_dr_wu_tou_kwang",
+      "name": "Dr. Wu Tou Kwang",
+      "description": "Médico e fundador do Ceata",
+      "international": false,
+      "image": "/images/speakers/wu-tou.jpg"
+    },
+    {
+      "id": "speaker_prof_wilson_marino",
+      "name": "Prof. Wilson Marino",
+      "description": "Fisioterapeuta",
+      "international": false,
+      "image": "/images/speakers/wilson-marino.jpg"
+    },
+    {
+      "id": "speaker_profa_eleonora_comucci",
+      "name": "Profa. Eleonora Comucci",
+      "description": "Speeck da Vitafor",
+      "international": false,
+      "image": "/images/speakers/eleonora-comucci.jpg"
+    },
+    {
+      "id": "speaker_prof_sergio_areias",
+      "name": "Prof. Sergio Areias",
+      "description": "?",
+      "international": false,
+      "image": "/images/speakers/sergio-areias.jpg"
+    },
+    {
+      "id": "speaker_dra_liane_bering",
+      "name": "Dra. Liane Bering",
+      "description": "Medica de Medicina Biológica",
+      "international": false,
+      "image": "/images/speakers/liane-bering.jpg"
+    },
+    {
+      "id": "speaker_dr_elder_feltrin",
+      "name": "Dr. Elder Feltrin",
+      "description": "Medico do Instituto Harmonia",
+      "international": false,
+      "image": "/images/speakers/elder-feltrin.jpg"
+    },
+    {
+      "id": "speaker_prof_fernando_braga",
+      "name": "Prof. Fernando Braga",
+      "description": "Fisioterapeuta",
+      "international": false,
+      "image": "/images/speakers/fernando-braga.jpg"
+    },
+    {
+      "id": "speaker_prof_henrique_afonso",
+      "name": "Prof. Henrique Afonso",
+      "description": "?",
+      "international": false,
+      "image": "/images/speakers/henrique-afonso.jpg"
+    },
+    {
+      "id": "speaker_dra_karine_kalligaris",
+      "name": "Dra. Karine Kalligaris",
+      "description": "?",
+      "international": false,
+      "image": "/images/speakers/karine-kalligaris.jpg"
+    }
+  ]
+}
