@@ -4,7 +4,7 @@ const messages = {
   Year: '2021',
   MTC: 'Medicina Tradicional Chinesa',
   Footer: {
-    Text: 'II Encontro Internacional de MTC',
+    Text: '2020 – II Encontro Internacional de MTC',
   },
   Hero: {
     Locations: 'Campinas – São Paulo – Brasília',
