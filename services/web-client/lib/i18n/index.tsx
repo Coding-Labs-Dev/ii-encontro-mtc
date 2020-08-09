@@ -21,7 +21,7 @@ export const withPrefix = (prefix: string) => (
   values?: { [key: string]: string | number },
   formated = false
 ) => {
-  if (formated) return formatted(`${prefix}.${key}`, values);
+  if (formated || values) return formatted(`${prefix}.${key}`, values);
   return t(`${prefix}.${key}`);
 };
 
