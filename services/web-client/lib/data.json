@@ -100,7 +100,10 @@
     }
   ],
   "programme": {
-    "days": ["Sábado", "Domingo"],
+    "days": [
+      "Sábado",
+      "Domingo"
+    ],
     "dates": [
       [
         {
@@ -361,12 +364,18 @@
       {
         "id": "subscription_campinas",
         "location": "Campinas",
-        "dates": ["06/03", "07/03"]
+        "dates": [
+          "06/03",
+          "07/03"
+        ]
       },
       {
         "id": "subscription_são_paulo",
         "location": "São Paulo",
-        "dates": ["13/03", "14/03"],
+        "dates": [
+          "13/03",
+          "14/03"
+        ],
         "hotel": {
           "name": "Nikkey Palace Hotel",
           "url": "http://nikkeyhotel.com.br",
@@ -380,7 +389,10 @@
       {
         "id": "subscription_brasília",
         "location": "Brasília",
-        "dates": ["20/03", "21/03"],
+        "dates": [
+          "20/03",
+          "21/03"
+        ],
         "hotel": {
           "name": "Hotel Quality",
           "url": "http://atlanticahoteis.com.br",
@@ -396,5 +408,19 @@
       }
     ]
   },
-  "institutes": ["/images/logos/unicamp.jpg", "/images/logos/taijin.jpg", "/images/logos/sbcmtc.jpg", "/images/logos/uft.jpg", "/images/logos/red-yellow.jpg"]
+  "institutes": [
+    "/images/logos/unicamp.jpg",
+    "/images/logos/taijin.jpg",
+    "/images/logos/sbcmtc.jpg",
+    "/images/logos/uft.jpg",
+    "/images/logos/red-yellow.jpg"
+  ],
+  "sponsors": [
+    "/images/logos/vitafor.jpg",
+    "/images/logos/brasil-oriente.jpg",
+    "/images/logos/natural-med.jpg",
+    "/images/logos/alk.jpg",
+    "/images/logos/harmonia.jpg",
+    "/images/logos/morgental.jpg"
+  ]
 }

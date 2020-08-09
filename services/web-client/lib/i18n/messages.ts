@@ -26,6 +26,9 @@ const messages = {
   Institutes: {
     Title: 'Apoio Institucional',
   },
+  Sponsors: {
+    Title: 'Patrocínio',
+  },
 };
 
 export default messages;

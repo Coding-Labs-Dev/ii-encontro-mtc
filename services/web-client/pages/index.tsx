@@ -7,6 +7,7 @@ import Speakers from 'components/Speakers';
 import Programme from 'components/Programme';
 import PaymentPlans from 'components/PaymentPlans';
 import Institutes from '@components/Institutes';
+import Sponsors from '@components/Sponsors';
 
 const IndexPage = () => (
   <Layout title={t('Title')} description={t('Subtitle')}>
@@ -15,6 +16,7 @@ const IndexPage = () => (
     <Institutes />
     <Programme />
     <PaymentPlans />
+    <Sponsors />
   </Layout>
 );
 
