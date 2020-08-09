@@ -45,7 +45,7 @@
     {
       "id": "speaker_prof_sergio_areias",
       "name": "Prof. Sergio Areias",
-      "description": "?",
+      "description": "",
       "international": false,
       "image": "/images/speakers/sergio-areias.jpg"
     },
@@ -73,16 +73,30 @@
     {
       "id": "speaker_prof_henrique_afonso",
       "name": "Prof. Henrique Afonso",
-      "description": "?",
+      "description": "",
       "international": false,
       "image": "/images/speakers/henrique-afonso.jpg"
     },
     {
       "id": "speaker_dra_karine_kalligaris",
       "name": "Dra. Karine Kalligaris",
-      "description": "?",
+      "description": "",
       "international": false,
       "image": "/images/speakers/karine-kalligaris.jpg"
+    },
+    {
+      "id": "speaker_unyrajara-neri",
+      "name": "Ubyrajara Graça Neri",
+      "description": "",
+      "international": false,
+      "image": "/images/speakers/ubyrajara-neri.jpg"
+    },
+    {
+      "id": "speaker_leonardo_lomabardi_silva",
+      "name": "Leonardo Lombardi Silva",
+      "description": "",
+      "international": false,
+      "image": "/images/speakers/leonardo-lombardi.jpg"
     }
   ],
   "programme": {
