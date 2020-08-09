@@ -395,5 +395,6 @@
         }
       }
     ]
-  }
+  },
+  "institutes": ["/images/logos/unicamp.jpg", "/images/logos/taijin.jpg", "/images/logos/sbcmtc.jpg", "/images/logos/uft.jpg", "/images/logos/red-yellow.jpg"]
 }

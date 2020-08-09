@@ -23,6 +23,9 @@ const messages = {
     Footer:
       'Hospedagem por conta do aluno. Para reservas nos hoteis sugeridos, utilize o código {coupon}. Inscrições realizadas até {date} poderão ser parceladas no cartão de crédito em até {before} vezes. Após {date}, poderão ser parceladas em até {after} vezes. Não haverá inscrições no local. Vagas Limitadas.',
   },
+  Institutes: {
+    Title: 'Apoio Institucional',
+  },
 };
 
 export default messages;
