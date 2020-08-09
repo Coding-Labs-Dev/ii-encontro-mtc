@@ -325,5 +325,61 @@
         }
       ]
     ]
+  },
+  "subscriptions": {
+    "values": [
+      {
+        "value": 488.00,
+        "singlePayment": false
+      },
+      {
+        "value": 438.00,
+        "singlePayment": true
+      }
+    ],
+    "installments": {
+      "date": "10/09",
+      "before": 10,
+      "after": 6
+    },
+    "coupon": "Rompendo Paradigmas",
+    "locations": [
+      {
+        "id": "subscription_campinas",
+        "location": "Campinas",
+        "dates": ["06/03", "07/03"]
+      },
+      {
+        "id": "subscription_são_paulo",
+        "location": "São Paulo",
+        "dates": ["13/03", "14/03"],
+        "hotel": {
+          "name": "Nikkey Palace Hotel",
+          "url": "http://nikkeyhotel.com.br",
+          "address": "Rua Galvão 425 - Liberdade, São Paulo, SP",
+          "phone": "(11) 3207-8511"
+        },
+        "event": {
+          "atHotel": true
+        }
+      },
+      {
+        "id": "subscription_brasília",
+        "location": "Brasília",
+        "dates": ["20/03", "21/03"],
+        "hotel": {
+          "name": "Hotel Quality",
+          "url": "http://atlanticahoteis.com.br",
+          "address": "SMAS trecho 3, Conjunto 2, Bloco A, Guará, DF",
+          "phone": "(61) 2196-6090"
+        },
+        "event": {
+          "name": "ParlaMundi The LGW",
+          "url": "http://fenixeventosdf.com.br",
+          "phone": "(61) 3346-8420",
+          "address": "SGAS 915, Setor de Grandes Áreas, Brasília, DF"
+        }
+      }
+    ]
   }
 }

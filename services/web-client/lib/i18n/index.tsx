@@ -16,10 +16,13 @@ export const formatted = (id: string, values = {}) => {
   return <FormattedMessage id={id} defaultMessage={message} values={values} />;
 };
 
-export const withPrefix = (prefix: string) => (key: string) =>
-  t(`${prefix}.${key}`);
-
-export const withFormat = (prefix: string) => (key: string, ...rest: any) =>
-  formatted(`${prefix}.${key}`, ...rest);
+export const withPrefix = (prefix: string) => (
+  key: string,
+  values?: { [key: string]: string | number },
+  formated = false
+) => {
+  if (formated) return formatted(`${prefix}.${key}`, values);
+  return t(`${prefix}.${key}`);
+};
 
 export default t;

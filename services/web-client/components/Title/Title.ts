@@ -1,4 +1,4 @@
 export interface Props {
-  title: string;
+  title: string | JSX.Element;
   short?: string;
 }
