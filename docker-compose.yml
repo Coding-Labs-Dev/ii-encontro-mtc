@@ -12,8 +12,14 @@ services:
   dynamodb-local:
     image: amazon/dynamodb-local:latest
     container_name: dynamodb-local
+    command: "-jar DynamoDBLocal.jar -sharedDb -dbPath /data"
+    restart: always
+    volumes:
+      - ./dynamodb-data:/data
     ports:
       - "8000:8000"
+    environment:
+      - -inMemory=false
   api:
     build: ./services/api
     ports:
@@ -21,6 +27,7 @@ services:
     volumes:
       - ./services/api:/usr/src/app
       - /usr/src/app/node_modules/
+    env_file: './services/api/.env'
     entrypoint: yarn start
     depends_on:
       - dynamodb-local
