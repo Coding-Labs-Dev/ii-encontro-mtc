@@ -74,12 +74,15 @@ class AdminInstance extends Instance {
     AdminInstance.json = this.toJSON();
   }
 
-  public createTokens() {
+  public createTokens(withRefreshToken = true) {
     const email = AdminInstance.json.email;
     const token = jwt.sign({ email }, APP_KEY, {
       algorithm: 'HS256',
       expiresIn: '1h',
     });
+
+    if (!withRefreshToken) return { token };
+
     const refreshToken = jwt.sign({ email }, APP_KEY, {
       algorithm: 'HS256',
     });

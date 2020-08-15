@@ -1,5 +1,7 @@
 import { Request, Response } from 'express';
+import jwt from 'jsonwebtoken';
 
+import { APP_KEY } from 'config/constants';
 import Admin from 'models/Admin';
 
 class SessionController {
@@ -14,6 +16,22 @@ class SessionController {
     if (!auth) return res.status(401).send();
 
     return res.json({ ...auth });
+  }
+
+  async update(req: Request, res: Response): Promise<Response> {
+    const { email, refreshToken } = req.body;
+    const user = await Admin.getAdmin(email);
+    if (!user) return res.status(401).send();
+
+    try {
+      const payload = jwt.verify(refreshToken, APP_KEY) as {
+        email: string;
+      };
+      if (payload.email !== email) return res.status(401).send();
+      return res.json({ ...user.createTokens(false) });
+    } catch (e) {
+      return res.status(401).send();
+    }
   }
 }
 
