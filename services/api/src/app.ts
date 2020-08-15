@@ -4,7 +4,7 @@ import cors from 'cors';
 import serverless from 'serverless-http';
 import morganBody from 'morgan-body';
 import routes from './routes';
-// import HttpExceptionHandler from './app/middlewares/HttpExceptionMiddleware';
+import HttpExceptionHandler from 'middlewares/HttpExceptionMiddleware';
 
 class App {
   public server: Express;
@@ -13,7 +13,7 @@ class App {
     this.server = express();
     this.middlewares();
     this.routes();
-    // this.globalEHandler();
+    this.globalEHandler();
   }
 
   middlewares(): void {
@@ -28,9 +28,9 @@ class App {
     this.server.use(routes);
   }
 
-  // globalEHandler(): void {
-  //   this.server.use(HttpExceptionHandler);
-  // }
+  globalEHandler(): void {
+    this.server.use(HttpExceptionHandler);
+  }
 }
 
 export const { server } = new App();
