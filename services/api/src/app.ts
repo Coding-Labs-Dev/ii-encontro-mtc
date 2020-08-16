@@ -3,6 +3,10 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import serverless from 'serverless-http';
 import morganBody from 'morgan-body';
+import Rollbar from 'rollbar';
+
+import { ROLLBAR_KEY } from 'config/constants';
+
 import routes from './routes';
 import HttpExceptionHandler from 'middlewares/HttpExceptionMiddleware';
 
@@ -29,6 +33,14 @@ class App {
   }
 
   globalEHandler(): void {
+    if (process.env.NODE_ENV === 'production') {
+      const rollbar = new Rollbar({
+        accessToken: ROLLBAR_KEY,
+        captureUncaught: true,
+        captureUnhandledRejections: true,
+      });
+      this.server.use(rollbar.errorHandler());
+    }
     this.server.use(HttpExceptionHandler);
   }
 }

@@ -8,3 +8,4 @@ export const PAGSEGURO_EMAIL = process.env.PAGSEGURO_EMAIL || '';
 export const PAGSEGURO_TOKEN = process.env.PAGSEGURO_TOKEN || '';
 export const PAGSEGURO_NOTIFICATION = process.env.PAGSEGURO_NOTIFICATION || '';
 export const APP_KEY = process.env.APP_KEY || '';
+export const ROLLBAR_KEY = process.env.ROLLBAR_KEY || '';

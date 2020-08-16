@@ -7,13 +7,12 @@
     "start": "nodemon"
   },
   "nodemonConfig": {
-    "ignore":
-      [
-        "**/*.test.ts",
-        "**/*.spec.ts",
-        ".git",
-        "node_modules"
-      ],
+    "ignore": [
+      "**/*.test.ts",
+      "**/*.spec.ts",
+      ".git",
+      "node_modules"
+    ],
     "watch": [
       "src"
     ],
@@ -55,6 +54,7 @@
     "jsonwebtoken": "^8.5.1",
     "moment": "^2.27.0",
     "morgan-body": "^2.5.0",
+    "rollbar": "^2.19.2",
     "serverless-http": "^2.5.0",
     "ulid": "^2.3.0",
     "yup": "^0.29.3"

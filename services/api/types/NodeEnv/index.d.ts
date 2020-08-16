@@ -10,5 +10,6 @@ declare namespace NodeJS {
     PAGSEGURO_TOKEN: string;
     PAGSEGURO_NOTIFICATION: string;
     APP_KEY: string;
+    ROLLBAR_KEY: string;
   }
 }
