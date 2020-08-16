@@ -1,12 +1,6 @@
 import Database from 'database/database';
 import { DynamoDB } from 'aws-sdk';
-import {
-  ItemList,
-  AttributeMap,
-  Integer,
-  Key,
-  ConsumedCapacity,
-} from 'aws-sdk/clients/dynamodb';
+import { ItemList, AttributeMap } from 'aws-sdk/clients/dynamodb';
 
 export abstract class Model {
   static PREFIX: string;
@@ -33,13 +27,7 @@ export abstract class Instance {
     PK: string;
     SK: string;
   };
-  public static Data: {
-    Items: ItemList;
-    Count: Integer;
-    ScannedCount?: Integer;
-    LastEvaluatedKey?: Key;
-    ConsumedCapacity?: ConsumedCapacity;
-  };
+  public static Data: AttributeMap;
 
   public static parseItem(data: AttributeMap) {
     const result = {} as typeof Instance['RawAttributes'];

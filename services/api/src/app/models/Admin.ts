@@ -1,4 +1,8 @@
-import { QueryInput, PutItemInput } from 'aws-sdk/clients/dynamodb';
+import {
+  QueryInput,
+  PutItemInput,
+  AttributeMap,
+} from 'aws-sdk/clients/dynamodb';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 
@@ -28,8 +32,8 @@ class Admin extends Model {
     };
 
     const data = await Admin.DB.query(params).promise();
-    if (!data.Count) return null;
-    return new AdminInstance(data, attributesMap);
+    if (!data.Items?.length) return null;
+    return new AdminInstance(data.Items[0], attributesMap);
   }
 
   public async createAdmin({
@@ -50,10 +54,12 @@ class Admin extends Model {
           S: this.withPrefix(hashedPassword),
         },
       },
+      ReturnValues: 'ALL_OLD',
     };
 
     const data = await Admin.DB.putItem(params).promise();
-    return new AdminInstance(data, attributesMap);
+    if (!data.Attributes) return null;
+    return new AdminInstance(data.Attributes, attributesMap);
   }
 }
 
@@ -66,7 +72,10 @@ class AdminInstance extends Instance {
     hashedPassword: string;
   };
 
-  public constructor(data, attributes: typeof Instance.RawAttributes) {
+  public constructor(
+    data: AttributeMap,
+    attributes: typeof Instance.RawAttributes
+  ) {
     super();
     AdminInstance.Model = new Admin(KeyPrefix);
     AdminInstance.Data = data;
@@ -90,7 +99,7 @@ class AdminInstance extends Instance {
   }
 
   public toJSON() {
-    const data = AdminInstance.parseItem(AdminInstance.Data.Items[0]);
+    const data = AdminInstance.parseItem(AdminInstance.Data);
     const result = {};
     Object.keys(data).reduce((obj, key) => {
       obj[AdminInstance.RawAttributes[key]] = AdminInstance.Model.withoutPrefix(

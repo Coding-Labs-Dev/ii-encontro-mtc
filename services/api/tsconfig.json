@@ -9,7 +9,7 @@
     "module": "commonjs",
     "allowJs": true,
     "outDir": "lib",
-    "rootDir": "./",
+    "rootDir": "./src",
     "strict": true,
     "strictPropertyInitialization": false,
     "moduleResolution": "node",
@@ -21,7 +21,7 @@
     "forceConsistentCasingInFileNames": true,
     "noImplicitAny": false,
     "paths": {
-      "config/*": ["../config/*"],
+      "config/*": ["config/*"],
       "database/*": ["database/*"],
       "controllers/*": ["app/controllers/*"],
       "middlewares/*": ["app/middlewares/*"],
