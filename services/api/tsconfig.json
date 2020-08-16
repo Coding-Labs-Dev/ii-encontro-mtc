@@ -7,7 +7,6 @@
     "noUnusedParameters": true,
     "sourceMap": true,
     "module": "commonjs",
-    "types": ["node"],
     "allowJs": true,
     "outDir": "lib",
     "rootDir": "./",
@@ -29,7 +28,7 @@
       "models/*": ["app/models/*"]
     }
   },
-  "include": ["src", "config", "types"],
+  "include": ["src", "config", "types", "spec"],
   "exclude": [
     "node_modules/**/*",
     ".serverless/**/*",
