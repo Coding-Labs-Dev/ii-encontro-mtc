@@ -1,12 +1,12 @@
 import bcrypt from 'bcryptjs';
 
 import Admin from 'models/Admin';
-import { queryMock, putItemMock } from '../mocks/dynamodb';
+import { queryMock, batchWriteItemMock } from '../mocks/dynamodb';
 
 describe('Models: Admin', () => {
   beforeEach(() => {
     queryMock.mockReset();
-    putItemMock.mockReset();
+    batchWriteItemMock.mockReset();
   });
 
   it('getAdmin', async () => {
@@ -32,42 +32,48 @@ describe('Models: Admin', () => {
   });
 
   it('createAdmin', async () => {
-    putItemMock.setup({
-      Attributes: {
-        PK: {
-          S: 'ADMIN#admin@admin.com',
-        },
-        SK: {
-          S: 'ADMIN#123456',
-        },
-      },
-    });
+    batchWriteItemMock.setup({});
 
     const admin = await Admin.createAdmin({
       email: 'admin@admin.com',
       password: '123456',
     });
 
-    expect(putItemMock.getInstance()).toHaveBeenCalledWith(
+    expect(batchWriteItemMock.getInstance()).toHaveBeenCalledWith(
       expect.objectContaining({
-        TableName: process.env.DYNAMODB_TABLE,
-        Item: {
-          PK: {
-            S: 'ADMIN#admin@admin.com',
-          },
-          SK: {
-            S: expect.stringMatching('ADMIN#'),
-          },
+        RequestItems: {
+          [process.env.DYNAMODB_TABLE]: [
+            {
+              PutRequest: {
+                Item: {
+                  PK: {
+                    S: 'ADMIN#admin@admin.com',
+                  },
+                  SK: {
+                    S: expect.stringMatching('ADMIN#'),
+                  },
+                },
+              },
+            },
+            {
+              PutRequest: {
+                Item: {
+                  PK: {
+                    S: 'ADMIN#admin@admin.com',
+                  },
+                  SK: {
+                    S: 'META',
+                  },
+                },
+              },
+            },
+          ],
         },
-        ReturnValues: 'ALL_OLD',
       })
     );
 
-    expect(admin?.toJSON()).toEqual(
-      expect.objectContaining({
-        email: 'admin@admin.com',
-      })
-    );
+    expect(admin?.toJSON()).toHaveProperty('email', 'admin@admin.com');
+    expect(admin?.toJSON()).toHaveProperty('hashedPassword');
   });
 
   describe('createToken', () => {

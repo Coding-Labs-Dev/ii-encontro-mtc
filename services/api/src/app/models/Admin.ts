@@ -1,7 +1,7 @@
 import {
   QueryInput,
-  PutItemInput,
   AttributeMap,
+  BatchWriteItemInput,
 } from 'aws-sdk/clients/dynamodb';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
@@ -36,6 +36,25 @@ class Admin extends Model {
     return new AdminInstance(data.Items[0], attributesMap);
   }
 
+  public async adminExists() {
+    const params: QueryInput = {
+      TableName: Admin.Table,
+      IndexName: 'INVERTED',
+      KeyConditionExpression: '#sk = :meta and begins_with(#pk, :prefix)',
+      ExpressionAttributeNames: {
+        '#sk': 'SK',
+        '#pk': 'PK',
+      },
+      ExpressionAttributeValues: {
+        ':meta': { S: 'META' },
+        ':prefix': { S: Admin.PREFIX },
+      },
+    };
+    const data = await Admin.DB.query(params).promise();
+    if (data.Items?.length) return true;
+    return false;
+  }
+
   public async createAdmin({
     email,
     password,
@@ -44,22 +63,43 @@ class Admin extends Model {
     password: string;
   }) {
     const hashedPassword = bcrypt.hashSync(password, 8);
-    const params: PutItemInput = {
-      TableName: Admin.Table,
-      Item: {
-        PK: {
-          S: this.withPrefix(email),
-        },
-        SK: {
-          S: this.withPrefix(hashedPassword),
-        },
+
+    const data = {
+      PK: {
+        S: this.withPrefix(email),
       },
-      ReturnValues: 'ALL_OLD',
+      SK: {
+        S: this.withPrefix(hashedPassword),
+      },
     };
 
-    const data = await Admin.DB.putItem(params).promise();
-    if (!data.Attributes) return null;
-    return new AdminInstance(data.Attributes, attributesMap);
+    const params: BatchWriteItemInput = {
+      RequestItems: {
+        [Admin.Table]: [
+          {
+            PutRequest: {
+              Item: data,
+            },
+          },
+          {
+            PutRequest: {
+              Item: {
+                PK: {
+                  S: this.withPrefix(email),
+                },
+                SK: {
+                  S: 'META',
+                },
+              },
+            },
+          },
+        ],
+      },
+    };
+
+    const result = await this.batchWrite(params);
+    if (!result) return null;
+    return new AdminInstance(data, attributesMap);
   }
 }
 

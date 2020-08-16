@@ -1,6 +1,10 @@
 import Database from 'database/database';
 import { DynamoDB } from 'aws-sdk';
-import { ItemList, AttributeMap } from 'aws-sdk/clients/dynamodb';
+import {
+  ItemList,
+  AttributeMap,
+  BatchWriteItemInput,
+} from 'aws-sdk/clients/dynamodb';
 
 export abstract class Model {
   static PREFIX: string;
@@ -19,6 +23,28 @@ export abstract class Model {
 
   withoutPrefix(data: string) {
     return data.substr(Model.PREFIX.length + 1);
+  }
+
+  async batchWrite(data: BatchWriteItemInput, iteration = 0, maxTries = 3) {
+    try {
+      const { UnprocessedItems } = await Model.DB.batchWriteItem(
+        data
+      ).promise();
+      if (
+        UnprocessedItems &&
+        Object.keys(UnprocessedItems).length &&
+        iteration < maxTries
+      ) {
+        return new Promise(() => {
+          setTimeout(() => {
+            this.batchWrite({ RequestItems: UnprocessedItems }, iteration + 1);
+          }, iteration * 100);
+        });
+      }
+      return true;
+    } catch (e) {
+      return false;
+    }
   }
 }
 
