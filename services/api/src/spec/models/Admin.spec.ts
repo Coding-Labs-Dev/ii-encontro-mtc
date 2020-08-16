@@ -1,12 +1,12 @@
-import bcrypt from 'bcryptjs';
-
-import Admin from 'models/Admin';
+import * as bcrypt from '../mocks/bcrypt';
 import { queryMock, batchWriteItemMock } from '../mocks/dynamodb';
+import Admin from 'models/Admin';
 
 describe('Models: Admin', () => {
   beforeEach(() => {
     queryMock.mockReset();
     batchWriteItemMock.mockReset();
+    bcrypt.compare.mockReset();
   });
 
   it('getAdmin', async () => {
@@ -119,7 +119,7 @@ describe('Models: Admin', () => {
   });
 
   it('authenticate', async () => {
-    const hashedPassword = bcrypt.hashSync('123456', 8);
+    bcrypt.compare.mockImplementation(() => true);
     queryMock.setup({
       Items: [
         {
@@ -127,7 +127,7 @@ describe('Models: Admin', () => {
             S: 'ADMIN#admin@admin.com',
           },
           SK: {
-            S: `ADMIN#${hashedPassword}`,
+            S: 'ADMIN#123456',
           },
         },
       ],

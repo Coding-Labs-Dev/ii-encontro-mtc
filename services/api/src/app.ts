@@ -23,9 +23,11 @@ class App {
   middlewares(): void {
     this.server.use(cors());
     this.server.use(bodyParser.json());
-    morganBody(this.server, {
-      maxBodyLength: 4000,
-    });
+    if (process.env.NODE_ENV !== 'test') {
+      morganBody(this.server, {
+        maxBodyLength: 4000,
+      });
+    }
   }
 
   routes(): void {
