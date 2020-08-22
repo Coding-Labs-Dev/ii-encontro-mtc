@@ -1,8 +1,16 @@
 import * as yup from 'yup';
+import { withPrefix } from 'utils/getMessage';
+import { Locales } from '~/utils/i18n';
 
-const schema = yup.object().shape({
-  eml: yup.string().email('This must be a valid email').required('This is a required field'),
-  psw: yup.string().required('This is a required field'),
-});
+const createSchema = (locale: Locales) => {
+  const getMessage = withPrefix(locale, 'Forms.Errors');
+  return yup.object().shape({
+    eml: yup
+      .string()
+      .email(getMessage('InvalidEmail'))
+      .required(getMessage('Required')),
+    psw: yup.string().required(getMessage('Required')),
+  });
+};
 
-export default schema;
+export default createSchema;

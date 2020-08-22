@@ -10,20 +10,25 @@ import {
   Grid,
   useTheme,
 } from '@material-ui/core';
+
 import { useForm, FormProvider } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers';
 
-import { TextField, PasswordField, Checkbox, Button } from '~/components/ux/form';
+import { t as tr, usePrefix, IntlContext } from 'utils/i18n';
+import { TextField, PasswordField, Checkbox, Button } from 'components/ux/form';
 
-import logo from '~/assets/images/terbium@4x.png';
+import logo from 'assets/images/logo.png';
 
 import formSchema from './formSchema';
 import { Wrapper } from './styles';
 
+const t = usePrefix('Pages.Home');
+
 const Home = () => {
+  const i18n = React.useContext(IntlContext);
   const { palette } = useTheme();
   const formMethods = useForm({
-    resolver: yupResolver(formSchema),
+    resolver: yupResolver(formSchema(i18n.locale!)),
   });
   const { handleSubmit } = formMethods;
 
@@ -52,7 +57,7 @@ const Home = () => {
                     spacing={3}
                   >
                     <Grid item>
-                      <img src={logo} alt="Terbium" />
+                      <img src={logo} alt={tr('Application.Name')} />
                     </Grid>
                     <Grid
                       item
@@ -64,7 +69,7 @@ const Home = () => {
                       <Grid item>
                         <TextField
                           fullWidth
-                          placeholder="Email"
+                          placeholder={t('Fields.Email.Placeholder')}
                           name="eml"
                           disabled={isFetching}
                           InputProps={{
@@ -79,7 +84,7 @@ const Home = () => {
                       <Grid item>
                         <PasswordField
                           fullWidth
-                          placeholder="Password"
+                          placeholder={t('Fields.Password.Placeholder')}
                           name="psw"
                           disabled={isFetching}
                           InputProps={{
@@ -93,18 +98,22 @@ const Home = () => {
                         />
                       </Grid>
                       <Grid item container justify="center">
-                        <Checkbox name="rememberMe" label="Remember me" disabled={isFetching} />
+                        <Checkbox
+                          name="rememberMe"
+                          label={t('Buttons.RememberMe')}
+                          disabled={isFetching}
+                        />
                       </Grid>
                     </Grid>
 
                     <Grid item>
-                      <Button variant="contained" color="primary" type="submit" isFetching={isFetching}>
-                        Log In
-                      </Button>
-                    </Grid>
-                    <Grid item>
-                      <Button href="#forgot-password" size="small">
-                        Forgot Password?
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        type="submit"
+                        isFetching={isFetching}
+                      >
+                        {t('Buttons.LogIn')}
                       </Button>
                     </Grid>
                   </Grid>
