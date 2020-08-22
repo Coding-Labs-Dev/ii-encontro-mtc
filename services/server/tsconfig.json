@@ -26,7 +26,8 @@
       "controllers/*": ["app/controllers/*"],
       "middlewares/*": ["app/middlewares/*"],
       "models/*": ["app/models/*"],
-      "lib/*": ["lib/*"]
+      "lib/*": ["lib/*"],
+      "services/*": ["services/*"]
     }
   },
   "include": ["src"],
