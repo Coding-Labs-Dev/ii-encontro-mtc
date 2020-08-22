@@ -29,3 +29,13 @@ services:
     entrypoint: yarn start
     depends_on:
       - dynamodb-local
+  server:
+    build: ./services/server
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./services/server/src:/usr/src/app/src
+    env_file: './services/server/.env.local'
+    entrypoint: yarn start
+    depends_on:
+      - dynamodb-local

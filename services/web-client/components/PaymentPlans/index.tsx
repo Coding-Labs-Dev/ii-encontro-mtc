@@ -2,7 +2,6 @@ import React from 'react';
 import { Box, Grid, Container, Typography } from '@material-ui/core';
 import { withPrefix } from 'lib/i18n';
 import bemHelper from 'lib/bem';
-import { subscriptions } from 'lib/data.json';
 
 import Title from 'components/Title';
 
@@ -10,11 +9,17 @@ import styles from './PaymentPlans.module.scss';
 
 import PaymentPlanCard from './PaymentPlanCard';
 
+import { Subscriptions as SubscriptionsType } from '../../types/models';
+
 const bem = bemHelper(styles, 'PaymentPlans');
 
 const t = withPrefix('PaymentPlans');
 
-const Speakers: React.FC = () => (
+interface Props {
+  subscriptions: SubscriptionsType;
+}
+
+const Speakers: React.FC<Props> = ({ subscriptions }) => (
   <Box py={5}>
     <Container>
       <Grid container justify="center" alignItems="flex-start" spacing={2}>

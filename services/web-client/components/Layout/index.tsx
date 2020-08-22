@@ -1,12 +1,11 @@
 import React from 'react';
 import Head from 'next/head';
-import { NextPage } from 'next';
 
 import Footer from 'components/Footer';
 import { Box } from '@material-ui/core';
 import { Props } from './Layout';
 
-const Layout: NextPage<Props> = ({ children, title, description, og }) => (
+const Layout: React.FC<Props> = ({ children, title, description, og }) => (
   <>
     <Head>
       <title>{title}</title>

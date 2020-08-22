@@ -24,8 +24,9 @@
       "@pages/*": ["./pages/*"],
       "@styles/*": ["./styles/*"],
       "@lib/*": ["./lib"],
+      "@types/*": ["./types/*"],
     }
   },
   "exclude": ["node_modules"],
-  "include": ["**/*.ts", "**/*.tsx"]
+  "include": ["**/*.ts", "**/*.tsx", "./types"]
 }

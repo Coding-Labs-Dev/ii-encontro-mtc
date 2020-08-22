@@ -1,7 +1,6 @@
 import React from 'react';
 import { Box, Container, Grid } from '@material-ui/core';
 import { withPrefix } from 'lib/i18n';
-import { programme } from 'lib/data.json';
 
 import Title from 'components/Title';
 
@@ -9,9 +8,15 @@ import DayButton from './DayButton';
 import ProgrammeTable from './ProgrammeTable';
 import { Schedule, Dates } from './ProgrammeTable/ProgrammeTable';
 
+import { Programme as ProgrammeType } from '../../types/models';
+
+interface Props {
+  programme: ProgrammeType;
+}
+
 const t = withPrefix('Programme');
 
-const Programme: React.FC = () => {
+const Programme: React.FC<Props> = ({ programme }) => {
   const [selectedDay, setSelectedDay] = React.useState(0);
 
   const {

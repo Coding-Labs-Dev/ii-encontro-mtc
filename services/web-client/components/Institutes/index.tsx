@@ -4,13 +4,18 @@ import { withPrefix } from 'lib/i18n';
 import bemHelper from 'lib/bem';
 import Title from 'components/Title';
 
-import { institutes } from 'lib/data.json';
 import styles from './Institutes.module.scss';
+
+import { Institutes as InstitutesType } from '../../types/models';
+
+interface Props {
+  institutes: InstitutesType;
+}
 
 const t = withPrefix('Institutes');
 const bem = bemHelper(styles, 'Institutes');
 
-const Institutes: React.FC = () => (
+const Institutes: React.FC<Props> = ({ institutes }) => (
   <Box py={5}>
     <Container>
       <Grid container justify="center" alignItems="flex-start" spacing={2}>

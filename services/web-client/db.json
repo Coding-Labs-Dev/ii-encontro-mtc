@@ -19,7 +19,8 @@
       "name": "Prof. Paulo Américo Vieira",
       "description": "Introdutor das Fórmulas Chinesas no Brasil",
       "international": false,
-      "image": "/images/speakers/paulo-americo.jpg"
+      "image": "/images/speakers/paulo-americo.jpg",
+      "instagram": "fitoterapiachinesa"
     },
     {
       "id": "speaker_dr_wu_tou_kwang",
@@ -40,7 +41,8 @@
       "name": "Profa. Eleonora Comucci",
       "description": "Speeck da Vitafor",
       "international": false,
-      "image": "/images/speakers/eleonora-comucci.jpg"
+      "image": "/images/speakers/eleonora-comucci.jpg",
+      "instagram": "eleonoracomucci"
     },
     {
       "id": "speaker_prof_sergio_areias",
@@ -82,18 +84,19 @@
       "name": "Dra. Karine Kalligaris",
       "description": "",
       "international": false,
-      "image": "/images/speakers/karine-kalligaris.jpg"
+      "image": "/images/speakers/karine-kalligaris.jpg",
+      "instagram": "fitoterapiachinesa"
     },
     {
       "id": "speaker_unyrajara-neri",
-      "name": "Ubyrajara Graça Neri",
+      "name": "Prof. Ubyrajara Graça Neri",
       "description": "",
       "international": false,
       "image": "/images/speakers/ubyrajara-neri.jpg"
     },
     {
       "id": "speaker_leonardo_lomabardi_silva",
-      "name": "Leonardo Lombardi Silva",
+      "name": "Prof. Leonardo Lombardi Silva",
       "description": "",
       "international": false,
       "image": "/images/speakers/leonardo-lombardi.jpg"
@@ -195,7 +198,7 @@
             {
               "id": "são_paulo_sat_15h00",
               "location": "São Paulo",
-              "description": "Em definição",
+              "description": "Como eu uso Fórmulas Chinesas",
               "speaker": "Dr. Wu Tou Kwang"
             },
             {
@@ -356,6 +359,7 @@
     ],
     "installments": {
       "date": "10/09",
+      "utc": "2020-09-10T00:00:00.000-03:00",
       "before": 10,
       "after": 6
     },
@@ -363,14 +367,21 @@
     "locations": [
       {
         "id": "subscription_campinas",
+        "slug": "campinas",
         "location": "Campinas",
         "dates": [
           "06/03",
           "07/03"
-        ]
+        ],
+        "event": {
+          "name": "Hotel Nacional Inn",
+          "address": "Av. Benedicto de Campos 35",
+          "phone": "(19) 3772-1400"
+        }
       },
       {
         "id": "subscription_são_paulo",
+        "slug": "saopaulo",
         "location": "São Paulo",
         "dates": [
           "13/03",
@@ -388,6 +399,7 @@
       },
       {
         "id": "subscription_brasília",
+        "slug": "brasilia",
         "location": "Brasília",
         "dates": [
           "20/03",

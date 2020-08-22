@@ -5,6 +5,7 @@ import Head from 'next/head';
 import { IntlProvider } from 'react-intl';
 import 'typeface-roboto';
 import 'typeface-poppins';
+import 'react-toastify/dist/ReactToastify.min.css';
 
 function App({ Component, pageProps }: AppProps) {
   React.useEffect(() => {

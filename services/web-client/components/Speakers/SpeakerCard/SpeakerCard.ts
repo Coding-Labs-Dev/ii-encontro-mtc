@@ -3,4 +3,5 @@ export interface Props {
   name: string;
   description?: string;
   international?: boolean;
+  instagram?: string;
 }

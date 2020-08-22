@@ -1,0 +1,143 @@
+.bem-Fields {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    span.form-error {
+      color: #ff4757;
+      font-size: 0.8rem;
+      min-height: 1.5rem;
+      width: 100%;
+    }
+
+    input[type='text'],
+    input[type='tel'],
+    input[type='email'] {
+      outline: none;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      padding: 8px 15px;
+      font-family: 'Roboto', 'sans-serif';
+      font-size: 1rem;
+      color: #000;
+      transition: all 0.5s ease;
+      width: 100%;
+
+      &:hover {
+        border-color: #000;
+      }
+
+      &::placeholder {
+        transition: all 0.25s;
+        opacity: 0.5;
+        color: #222;
+      }
+
+      &:focus::placeholder {
+        opacity: 0.25;
+      }
+
+      &.error {
+        color: #fff;
+        border-color: #ff4757;
+        background: rgba(255, 71, 87, 0.2);
+      }
+    }
+
+    label {
+      font-size: 0.9rem;
+      padding-bottom: 4px;
+      margin-top: 5px;
+    }
+    .option {
+      padding: 10px 0;
+      display: block;
+      user-select: none;
+      justify-self: flex-start;
+      max-width: max-content;
+
+      label {
+        cursor: pointer;
+        font-size: 1.0625rem;
+        padding-left: 40px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        &:hover {
+          .radio,
+          .checkmark {
+            background-color: #ccc;
+          }
+        }
+        input[type='radio'],
+        input[type='checkbox'] {
+          position: absolute;
+          opacity: 0;
+          cursor: pointer;
+          height: 0;
+          width: 0;
+          &:checked ~ .radio {
+            background-color: #ec5a53;
+          }
+          &:checked ~ .checkmark {
+            background-color: #ec5a53;
+            &::after {
+              display: block;
+            }
+          }
+        }
+        .radio {
+          position: absolute;
+          left: 10px;
+          height: 15px;
+          width: 15px;
+          background-color: #aaa;
+          border-radius: 50%;
+          transition: all 0.25s ease;
+        }
+        .checkmark {
+          position: absolute;
+          left: 0;
+          height: 1.25rem;
+          width: 1.25rem;
+          background-color: #aaa;
+          transition: all 0.25s ease;
+          &::after {
+            content: '';
+            position: absolute;
+            display: none;
+            left: 6px;
+            top: 1px;
+            width: 5px;
+            height: 10px;
+            border: solid white;
+            border-width: 0 3px 3px 0;
+            transform: rotate(45deg);
+          }
+        }
+      }
+    }
+    &.half {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: flex-start;
+      @media screen and (min-width: 576px) {
+        width: calc(50% - 10px);
+      }
+    }
+    &.payment-option {
+      padding-bottom: 50px;
+    }
+    span.form-error {
+      color: #ec5a53;
+      font-size: 0.8rem;
+      min-height: 1.5rem;
+      width: 100%;
+      position: absolute;
+      top: calc(100% - 18px);
+    }
+}

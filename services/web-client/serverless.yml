@@ -1,0 +1,13 @@
+encontromtc-prod:
+  component: "@sls-next/serverless-component@1.15.1"
+  inputs:
+    domain: ["encontro", "sbcmtc.com.br"]
+    publicDirectoryCache:
+      value: public, max-age=604800
+      test: /\.(gif|jpe?g|jp2|tiff|png|webp|bmp|svg|ico)$/i
+    name:
+      defaultLambda: encontromtcDefaultLambda
+      apiLambda: encontromtcApiLambda
+    bucketName: "br-com-encontromtc"
+    domainType: "apex"
+    verbose: true

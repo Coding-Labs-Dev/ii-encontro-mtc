@@ -2,6 +2,7 @@ export interface Props {
   values: { value: number; singlePayment: boolean }[];
   location: {
     id: string;
+    slug: string;
     location: string;
     dates: string[];
     hotel?: {
