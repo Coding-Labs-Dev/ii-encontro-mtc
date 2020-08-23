@@ -4,6 +4,9 @@ import * as webpack from 'webpack';
 import Dotenv from 'dotenv-webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import FaviconsWebpackPlugin from 'favicons-webpack-plugin';
+import GitRevisionPlugin from 'git-revision-webpack-plugin';
+
+const gitRevisionPlugin = new GitRevisionPlugin();
 
 const config: webpack.Configuration = {
   entry: './src/index',
@@ -68,6 +71,12 @@ const config: webpack.Configuration = {
     new Dotenv({
       path: './.env',
       safe: true,
+    }),
+    gitRevisionPlugin,
+    new webpack.DefinePlugin({
+      VERSION: JSON.stringify(gitRevisionPlugin.version()),
+      COMMITHASH: JSON.stringify(gitRevisionPlugin.commithash()),
+      BRANCH: JSON.stringify(gitRevisionPlugin.branch()),
     }),
   ],
 };

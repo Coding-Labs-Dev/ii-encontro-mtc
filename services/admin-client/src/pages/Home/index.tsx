@@ -21,6 +21,7 @@ import logo from 'assets/images/logo.png';
 
 import formSchema from './formSchema';
 import { Wrapper } from './styles';
+import PrintVersion from '~/components/PrintVersion';
 
 const t = usePrefix('Pages.Home');
 
@@ -121,6 +122,7 @@ const Home = () => {
               </FormProvider>
             </Box>
           </Paper>
+          <PrintVersion color="textSecondary" />
         </Container>
       </div>
     </Wrapper>

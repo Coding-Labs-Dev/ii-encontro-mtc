@@ -8,12 +8,16 @@ export const Wrapper = styled.div`
   justify-content: center;
   align-items: center;
 
+  .MuiContainer-root {
+    text-align: center;
+  }
+
   & > div:first-child {
     width: 100%;
     flex: auto;
     display: flex;
     justify-content: center;
-    align-items: center
+    align-items: center;
   }
 
   img {
