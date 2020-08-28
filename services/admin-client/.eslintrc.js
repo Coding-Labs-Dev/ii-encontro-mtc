@@ -31,6 +31,8 @@ module.exports = {
     '@typescript-eslint/indent': 'off',
     'import/no-cycle': [2, { maxDepth: 1 }],
     'no-console': ['error', { allow: ['error'] }],
+    'import/extensions': 'off',
+    'no-console': ['error', { allow: ['warn', 'error'] }],
   },
   settings: {
     'import/parsers': {

@@ -30,7 +30,7 @@ type Props = ButtonProps & {
   isFetching?: boolean;
 };
 
-const Button: React.FC<Props> = ({ children, isFetching,...props }) => {
+const Button: React.FC<Props> = ({ children, isFetching, ...props }) => {
   const { palette } = useTheme();
 
   if (isFetching)

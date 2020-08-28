@@ -5,6 +5,7 @@ import Dotenv from 'dotenv-webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import FaviconsWebpackPlugin from 'favicons-webpack-plugin';
 import GitRevisionPlugin from 'git-revision-webpack-plugin';
+import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import gitprocess from 'child_process';
 
 const LoadCommitDate = gitprocess
@@ -14,7 +15,7 @@ const LoadCommitDate = gitprocess
 const gitRevisionPlugin = new GitRevisionPlugin();
 
 const config: webpack.Configuration = {
-  entry: './src/index',
+  entry: ['react-hot-loader/patch', './src/index'],
   output: {
     path: path.resolve(__dirname, '/dist'),
     filename: 'bundle.js',
@@ -26,6 +27,7 @@ const config: webpack.Configuration = {
   resolve: {
     extensions: ['.ts', '.tsx', '.js'],
     alias: {
+      'react-dom': '@hot-loader/react-dom',
       '~': path.resolve(__dirname, 'src/'),
       assets: path.resolve(__dirname, 'src/assets/'),
       components: path.resolve(__dirname, 'src/components/'),
@@ -42,9 +44,7 @@ const config: webpack.Configuration = {
       {
         test: /\.(ts|js)x?$/,
         exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader',
-        },
+        use: ['react-hot-loader/webpack', 'babel-loader'],
       },
       {
         test: /\.css$/,
@@ -74,6 +74,11 @@ const config: webpack.Configuration = {
   },
   watch: true,
   plugins: [
+    new ForkTsCheckerWebpackPlugin({
+      eslint: {
+        files: './src/**/*.{ts,tsx,js,jsx}',
+      },
+    }),
     new HtmlWebpackPlugin({
       template: './public/index.html',
     }),

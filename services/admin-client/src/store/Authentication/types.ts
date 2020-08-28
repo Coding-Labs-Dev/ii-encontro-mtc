@@ -1,8 +1,8 @@
-import { fetchStatus } from 'store/util/fetchStatus';
+import { FetchStatus } from 'store/util/fetchStatus';
 
 export interface AuthenticationState {
-  fetchStatus: fetchStatus;
-  fetchSession: fetchStatus;
+  FetchStatus: FetchStatus;
+  fetchSession: FetchStatus;
   isAuth: boolean;
   checkedSession: boolean;
 }
