@@ -15,6 +15,7 @@ module.exports = {
   },
   parser: '@typescript-eslint/parser',
   parserOptions: {
+    project: './tsconfig.json',
     ecmaFeatures: {
       jsx: true,
     },
@@ -27,6 +28,9 @@ module.exports = {
     'react/jsx-filename-extension': ['warn', { extensions: ['.tsx', '.ts'] }],
     'import/prefer-default-export': 'off',
     'react/prop-types': 0,
+    '@typescript-eslint/indent': 'off',
+    'import/no-cycle': [2, { maxDepth: 1 }],
+    'no-console': ['error', { allow: ['error'] }],
   },
   settings: {
     'import/parsers': {

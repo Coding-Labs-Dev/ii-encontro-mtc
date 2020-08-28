@@ -2,6 +2,21 @@ export default {
   Application: {
     Name: 'SBCMTC',
   },
+  Navigation: {
+    Dashboard: {
+      Title: 'Dashboard',
+      Realtime: 'Realtime',
+      Audience: 'Audience',
+      TraficSource: 'Trafic Source',
+    },
+    Wallet: {
+      Title: 'Wallet',
+      Balance: 'Balance',
+    },
+  },
+  Settings: {
+    DarkMode: 'Modo Escuro',
+  },
   Forms: {
     Errors: {
       Required: 'Este campo é obrigatório',
@@ -9,7 +24,7 @@ export default {
     },
   },
   Pages: {
-    Home: {
+    SignIn: {
       Fields: {
         Email: {
           Placeholder: 'Email',

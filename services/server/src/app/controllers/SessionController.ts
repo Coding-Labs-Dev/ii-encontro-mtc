@@ -56,13 +56,18 @@ class SessionController {
 
   async store(req: Request, res: Response): Promise<Response> {
     const {
-      body: { username, password, saveSession },
+      body: { email, password, saveSession },
     } = req;
 
-    const query = await User.query({ username }).exec();
+    if (!email || !password)
+      return res.status(400).send('Email e senha são obrigatórios');
+
+    console.log(email);
+    const query = await User.query({ email }).exec();
+    console.log(query);
 
     if (!query.count || !query.length) {
-      return res.status(401).send();
+      return res.status(401).send('Email ou senha inválidos');
     }
 
     // @ts-ignore
@@ -72,7 +77,7 @@ class SessionController {
     const user = document.toJSON();
 
     const auth = bcrypt.compareSync(password, user.password);
-    if (!auth) return res.status(401).send();
+    if (!auth) return res.status(401).send('Email ou senha inválidos');
 
     const {
       accessToken,

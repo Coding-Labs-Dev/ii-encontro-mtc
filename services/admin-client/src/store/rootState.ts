@@ -1,12 +1,14 @@
 import { INITIAL_STATE as alerts } from './Alert';
-import { AlertState } from './Alert/types';
+import { INITIAL_STATE as authentication } from './Authentication';
 
 export interface RootState {
-  alerts: AlertState;
+  alerts: typeof alerts;
+  authentication: typeof authentication;
 }
 
 const initialState: RootState = {
   alerts,
+  authentication,
 };
 
 export default initialState;

@@ -2,26 +2,28 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 
-import DefaultLayout from '~/layouts/default';
+import { useSelector } from 'react-redux';
+import * as AuthenticationSelectors from 'store/Authentication/selectors';
+
+import { RootState } from '~/store/rootState';
 
 interface Props {
   component: React.FC<any>;
-  path: string
-  exact: boolean | undefined;
-  isPrivate: boolean | undefined;
+  path: string;
+  exact?: boolean;
+  isPrivate?: boolean;
 }
 
 const RouteWrapper: React.FC<Props> = ({
   component: Component,
-  isPrivate,
-  exact,
-  path
+  path,
+  exact = false,
+  isPrivate = true,
 }) => {
-  // const signed = useSelector(state => state.auth.auth);
+  const state = useSelector((rootState: RootState) => rootState);
+  const isSigned = AuthenticationSelectors.isAuth(state);
 
-  const signed = true;
-
-  if (!signed && isPrivate) {
+  if (!isSigned && isPrivate) {
     return <Redirect to="/" />;
   }
 
@@ -29,11 +31,7 @@ const RouteWrapper: React.FC<Props> = ({
     <Route
       path={path}
       exact={exact}
-      render={props => (
-        <DefaultLayout>
-          <Component {...props} />
-        </DefaultLayout>
-      )}
+      render={props => <Component {...props} />}
     />
   );
 };

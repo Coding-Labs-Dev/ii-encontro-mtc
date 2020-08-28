@@ -40,13 +40,13 @@ services:
     depends_on:
       - dynamodb-local
   admin-client:
-    stdin_open: true # create-react-app fix
     build: ./services/admin-client
     ports:
-      - "5000:3000"
+      - "8080:8080"
     volumes:
       - ./services/admin-client:/usr/src/app
       - /usr/src/app_node_modules/
-    env_file: ./services/admin-client/.env.local
+    env_file: ./services/admin-client/.env
+    entrypoint: yarn dev
     depends_on:
       - server

@@ -9,7 +9,7 @@ if (process.env.NODE_ENV === 'development') {
 
 export interface Props {
   id: string;
-  username: string;
+  email: string;
   password: string;
   refreshTokens: string[];
   createdAt: string;
@@ -28,7 +28,7 @@ const schema = new Schema(
       required: true,
       default: () => ulid(),
     },
-    username: {
+    email: {
       type: String,
       required: true,
       index: {

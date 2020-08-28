@@ -1,6 +1,21 @@
 import styled from 'styled-components';
 
-export const Wrapper = styled.div`
+interface Props {
+  type: 'light' | 'dark';
+}
+
+export const Wrapper = styled.div<Props>`
+  position: relative;
   height: 100%;
-  background: linear-gradient(135deg, #2c3e50, #fd746c);
+  width: 100%;
+  display: grid;
+  grid-template-columns: 250px 1fr;
+  grid-template-rows: 64px 1fr;
+  grid-template-areas:
+    'navigation header'
+    'navigation main';
+`;
+
+export const Main = styled.div`
+  overflow: auto;
 `;

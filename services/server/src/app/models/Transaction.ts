@@ -9,7 +9,7 @@ if (process.env.NODE_ENV === 'development') {
 
 export interface Props {
   id: string;
-  username: string;
+  email: string;
   password: string;
   refreshTokens: string[];
   createdAt: string;

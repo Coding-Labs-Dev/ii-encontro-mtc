@@ -28,40 +28,38 @@ const Notifier: React.FC<Props> = ({ alerts, removeAlert }) => {
   };
 
   React.useEffect(() => {
-    alerts.forEach(
-      ({ id, type, content, options = {}, dismissed = false }) => {
-        if (dismissed) {
-          closeSnackbar(id);
-          return;
-        }
-
-        if (displayed.includes(id)) return;
-
-        enqueueSnackbar(content, {
-          key: id,
-          variant: type,
-          ...options,
-          onClose: (event, reason, thisId) => {
-            if (options.onClose) {
-              options.onClose(event, reason, thisId);
-            }
-          },
-          onExited: (_, thisId) => {
-            removeAlert(thisId);
-            removeDisplayed(thisId);
-          },
-          anchorOrigin: {
-            vertical: 'top',
-            horizontal: 'center',
-          },
-          autoHideDuration: 6000,
-          TransitionComponent: SlideTransition,
-        });
-
-        // keep track of snackbars that we've displayed
-        storeDisplayed(id);
+    alerts.forEach(({ id, type, content, options = {}, dismissed = false }) => {
+      if (dismissed) {
+        closeSnackbar(id);
+        return;
       }
-    );
+
+      if (displayed.includes(id)) return;
+
+      enqueueSnackbar(content, {
+        key: id,
+        variant: type,
+        ...options,
+        onClose: (event, reason, thisId) => {
+          if (options.onClose) {
+            options.onClose(event, reason, thisId);
+          }
+        },
+        onExited: (_, thisId) => {
+          removeAlert(thisId);
+          removeDisplayed(thisId);
+        },
+        anchorOrigin: {
+          vertical: 'top',
+          horizontal: 'center',
+        },
+        autoHideDuration: 6000,
+        TransitionComponent: SlideTransition,
+      });
+
+      // keep track of snackbars that we've displayed
+      storeDisplayed(id);
+    });
   }, [alerts, closeSnackbar, enqueueSnackbar, removeAlert]);
 
   return null;

@@ -1,24 +1,21 @@
 import { useState, useEffect, Dispatch, SetStateAction } from 'react';
+import { saveLocalStorageItem, getLocalStorageItem } from 'utils/localStorage';
 
-
-export default function usePersistedState<T>(key: string, initialState: T): [T, Dispatch<SetStateAction<T>>] {
+function usePersistedState<T>(
+  key: string,
+  initialState: T
+): [T, Dispatch<SetStateAction<T>>] {
   const [state, setState] = useState(() => {
-    const storageValue = localStorage.getItem(key);
-
-    if (storageValue) {
-      try {
-        return JSON.parse(storageValue);
-      } catch (_) {
-        return initialState;
-      }
-    }
+    const storageValue = getLocalStorageItem(key);
+    if (storageValue) return storageValue;
     return initialState;
-
   });
 
   useEffect(() => {
-    localStorage.setItem(key, JSON.stringify(state));
+    saveLocalStorageItem(key, state);
   }, [state, key]);
 
   return [state, setState];
-};
+}
+
+export default usePersistedState;

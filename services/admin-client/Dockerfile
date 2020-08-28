@@ -2,11 +2,13 @@ FROM node:12.18.2
 
 WORKDIR /usr/src/app
 
-COPY package.json ./
-COPY yarn.lock ./
+RUN git init
+
+COPY . ./
 
 RUN yarn
 
-EXPOSE 3000
 
-CMD [ "yarn", "start" ]
+EXPOSE 8080
+
+CMD [ "yarn", "dev" ]

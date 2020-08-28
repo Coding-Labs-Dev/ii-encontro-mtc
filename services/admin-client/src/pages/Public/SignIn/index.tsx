@@ -1,7 +1,13 @@
-/* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 
-import { AiOutlineMail, AiOutlineLock } from 'react-icons/ai';
+import { Redirect } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import * as AuthenticationSelectors from 'store/Authentication/selectors';
+import { signIn } from 'store/Authentication/actions';
+import { RootState } from 'store/rootState';
+
+import { t as tr, usePrefix, IntlContext } from 'utils/i18n';
+
 import {
   InputAdornment,
   Container,
@@ -10,35 +16,38 @@ import {
   Grid,
   useTheme,
 } from '@material-ui/core';
+import { AiOutlineMail, AiOutlineLock } from 'react-icons/ai';
 
 import { useForm, FormProvider } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers';
 
-import { t as tr, usePrefix, IntlContext } from 'utils/i18n';
 import { TextField, PasswordField, Checkbox, Button } from 'components/ux/form';
+import PrintVersion from 'components/PrintVersion';
 
 import logo from 'assets/images/logo.png';
 
-import formSchema from './formSchema';
+import formSchema, { Form } from './formSchema';
 import { Wrapper } from './styles';
-import PrintVersion from '~/components/PrintVersion';
 
-const t = usePrefix('Pages.Home');
+const t = usePrefix('Pages.SignIn');
 
-const Home = () => {
+const SignIn = () => {
+  const dispatch = useDispatch();
+  const state = useSelector((rootState: RootState) => rootState);
+  const isFetching = AuthenticationSelectors.isFetching(state);
+  const isAuth = AuthenticationSelectors.isAuth(state);
   const i18n = React.useContext(IntlContext);
   const { palette } = useTheme();
-  const formMethods = useForm({
+  const formMethods = useForm<Form>({
     resolver: yupResolver(formSchema(i18n.locale!)),
   });
   const { handleSubmit } = formMethods;
 
-  const [isFetching, setIsFetching] = React.useState(false);
-
-  const onSubmit = (data: any) => {
-    console.log(data);
-    setIsFetching(true);
+  const onSubmit = (data: Form) => {
+    dispatch(signIn(data.eml, data.psw, data.rememberMe));
   };
+
+  if (isAuth) return <Redirect to="/dashboard" />;
 
   return (
     <Wrapper>
@@ -46,6 +55,7 @@ const Home = () => {
         <Container maxWidth="xs">
           <Paper>
             <Box p={4}>
+              {/* eslint-disable-next-line react/jsx-props-no-spreading */}
               <FormProvider {...formMethods}>
                 <form
                   onSubmit={handleSubmit(onSubmit)}
@@ -129,4 +139,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default SignIn;

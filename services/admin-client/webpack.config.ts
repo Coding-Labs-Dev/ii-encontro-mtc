@@ -5,6 +5,11 @@ import Dotenv from 'dotenv-webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import FaviconsWebpackPlugin from 'favicons-webpack-plugin';
 import GitRevisionPlugin from 'git-revision-webpack-plugin';
+import gitprocess from 'child_process';
+
+const LoadCommitDate = gitprocess
+  .execSync('git log -1 --date=format:"%Y-%m-%d %T" --format="%ad"')
+  .toString();
 
 const gitRevisionPlugin = new GitRevisionPlugin();
 
@@ -13,6 +18,10 @@ const config: webpack.Configuration = {
   output: {
     path: path.resolve(__dirname, '/dist'),
     filename: 'bundle.js',
+    publicPath: '/',
+  },
+  devServer: {
+    historyApiFallback: true,
   },
   resolve: {
     extensions: ['.ts', '.tsx', '.js'],
@@ -20,6 +29,7 @@ const config: webpack.Configuration = {
       '~': path.resolve(__dirname, 'src/'),
       assets: path.resolve(__dirname, 'src/assets/'),
       components: path.resolve(__dirname, 'src/components/'),
+      config: path.resolve(__dirname, 'src/config/'),
       pages: path.resolve(__dirname, 'src/pages/'),
       services: path.resolve(__dirname, 'src/services/'),
       store: path.resolve(__dirname, 'src/store/'),
@@ -67,7 +77,7 @@ const config: webpack.Configuration = {
     new HtmlWebpackPlugin({
       template: './public/index.html',
     }),
-    new FaviconsWebpackPlugin('./public/logo.png'),
+    new FaviconsWebpackPlugin({ logo: './public/logo.png', cache: false }),
     new Dotenv({
       path: './.env',
       safe: true,
@@ -77,6 +87,7 @@ const config: webpack.Configuration = {
       VERSION: JSON.stringify(gitRevisionPlugin.version()),
       COMMITHASH: JSON.stringify(gitRevisionPlugin.commithash()),
       BRANCH: JSON.stringify(gitRevisionPlugin.branch()),
+      COMMITDATE: JSON.stringify(LoadCommitDate),
     }),
   ],
 };
