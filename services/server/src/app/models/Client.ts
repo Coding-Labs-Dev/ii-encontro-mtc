@@ -42,6 +42,8 @@ const schema = new Schema(
       },
     },
     phone: { type: String, required: true },
+    location: { type: String, required: true },
+    referer: String,
     cpf: {
       type: String,
       required: true,
@@ -58,7 +60,7 @@ const schema = new Schema(
         return value;
       },
     },
-    dob: Date,
+    dob: { type: Number, required: true },
     street: { type: String, required: true },
     number: { type: String, required: true },
     complement: { type: String, required: true },

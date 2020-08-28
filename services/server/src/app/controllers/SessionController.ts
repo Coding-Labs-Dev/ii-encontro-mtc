@@ -19,7 +19,7 @@ class SessionController {
         .status(401)
         .clearCookie('accessToken', { ...COOKIE_OPTIONS, maxAge: null })
         .clearCookie('refreshToken', { ...COOKIE_OPTIONS, maxAge: null })
-        .json({ msg: 'Invalid token' });
+        .json({ msg: 'Invalid header token' });
     }
     const { accessToken } = req.cookies;
     const verificationToken = req.headers.authorization.split(' ')[1];
@@ -46,7 +46,7 @@ class SessionController {
           .status(401)
           .clearCookie('accessToken', { ...COOKIE_OPTIONS, maxAge: null })
           .clearCookie('refreshToken', { ...COOKIE_OPTIONS, maxAge: null })
-          .json({ msg: 'Invalid token' });
+          .json({ msg: 'Invalid bearer token' });
 
       return res.status(200).json({ isAuth: true });
     } catch (err) {
@@ -62,9 +62,7 @@ class SessionController {
     if (!email || !password)
       return res.status(400).send('Email e senha são obrigatórios');
 
-    console.log(email);
     const query = await User.query({ email }).exec();
-    console.log(query);
 
     if (!query.count || !query.length) {
       return res.status(401).send('Email ou senha inválidos');

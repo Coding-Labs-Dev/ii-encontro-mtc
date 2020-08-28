@@ -16,6 +16,8 @@ class TransactionController {
       const {
         body: {
           cart,
+          location,
+          referer,
           sender,
           shipping,
           billing,
@@ -69,6 +71,8 @@ class TransactionController {
             name: sender.senderName,
             email: sender.senderEmail,
             phone: sender.senderFullPhone,
+            referer,
+            location,
             cpf: sender.senderCPF,
             dob,
             street: shipping.shippingAddressStreet,
@@ -93,15 +97,15 @@ class TransactionController {
           extraAmount,
           installmentAmount,
         } = response.response.transaction;
-        const clientJSON = client.toJSON();
+        const clientJSON = clientExists.count ? client : client.toJSON();
         const { transactions = [] } = clientJSON;
         transactions.push(code);
-        console.log(client, typeof client);
-        await client.save();
+        await Client.create({ ...clientJSON, transactions });
 
         await Transaction.create({
           code,
           client: clientJSON.id,
+          location,
           reference: 'II-Econtro-MTC',
           status: [
             'Aguardando',

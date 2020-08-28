@@ -36,6 +36,7 @@ const theme: ThemeOptions = {
         },
         body: {
           height: '100%',
+          'background-color': '#ffffff',
         },
         '#__next': {
           height: '100%',

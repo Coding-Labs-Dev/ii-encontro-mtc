@@ -61,7 +61,7 @@ const Inscricao: NextPage<Props> = ({ subscriptions }) => {
 
   const location = React.useMemo(() => router.query.location, [router]);
 
-  const [selectedLocation, setSelectedLocation] = useState('');
+  const [selectedLocation, setSelectedLocation] = useState(location);
 
   useEffect(() => setSelectedLocation((p) => p || location), [location]);
 
@@ -123,6 +123,7 @@ const Inscricao: NextPage<Props> = ({ subscriptions }) => {
 
   const onSubmit = (data: any) => {
     setFormData({ ...data, location: selectedLocation });
+    console.log(data);
     setShowModal(true);
   };
 

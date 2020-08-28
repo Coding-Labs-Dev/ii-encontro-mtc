@@ -39,10 +39,6 @@ class NotificationController {
           email: response.response.transaction.sender.email,
         }).exec();
 
-        if (!query.count || !query.length) {
-          return res.status(401).send();
-        }
-
         const document =
           !query.count || !query.length
             ? await Client.create({

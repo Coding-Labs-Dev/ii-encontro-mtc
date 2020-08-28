@@ -24,6 +24,18 @@ export const ErrorMessage: React.FC<ErrorMessageProps> = ({ errors, name }) => {
 export const fields = {
   sender: [
     {
+      name: 'referer',
+      type: 'text',
+      label: 'Indicação',
+      placeholder: 'Se você foi indicado por alguém, digite o nome',
+      props: {
+        maxLength: {
+          value: 50,
+          message: 'O nome não pode conter mais que 50 caracteres.',
+        },
+      },
+    },
+    {
       name: 'sender.senderName',
       type: 'text',
       label: 'Nome Completo',

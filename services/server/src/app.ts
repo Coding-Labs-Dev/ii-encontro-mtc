@@ -12,6 +12,8 @@ import routes from './routes';
 import HttpExceptionHandler from 'middlewares/HttpExceptionMiddleware';
 import AuthenticationMiddleware from 'middlewares/AuthenticationMiddleware';
 
+const whiteList = [/localhost/, /\.sbcmtc\.com\.br$/];
+
 class App {
   public server: Express;
 
@@ -23,7 +25,18 @@ class App {
   }
 
   middlewares(): void {
-    this.server.use(cors());
+    this.server.use(
+      cors({
+        credentials: true,
+        origin(origin, callback) {
+          if (whiteList.findIndex(value => value.test(origin || '')) !== -1) {
+            callback(null, true);
+          } else {
+            callback(new Error('Not allowed by CORS'));
+          }
+        },
+      })
+    );
     this.server.use(cookieParser());
     this.server.use(express.json());
     this.server.use(bodyParser.urlencoded({ extended: true }));

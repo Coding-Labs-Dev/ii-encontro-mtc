@@ -37,6 +37,7 @@ const schema = new Schema(
       },
     },
     client: { type: String, required: true },
+    location: { type: String, required: true },
     reference: {
       type: String,
       required: true,

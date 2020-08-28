@@ -45,6 +45,14 @@
       "instagram": "eleonoracomucci"
     },
     {
+      "id": "speaker_karen_de_oliveira",
+      "name": "Dra. Karen de Oliveira",
+      "description": "Fisioterapeuta",
+      "international": false,
+      "instagram": "clinicaalkacupuntura",
+      "image": "/images/speakers/karen-oliveira.jpg"
+    },
+    {
       "id": "speaker_prof_sergio_areias",
       "name": "Prof. Sergio Areias",
       "description": "",
@@ -85,7 +93,7 @@
       "description": "",
       "international": false,
       "image": "/images/speakers/karine-kalligaris.jpg",
-      "instagram": "fitoterapiachinesa"
+      "instagram": "karinecalligaris.dongyitang"
     },
     {
       "id": "speaker_unyrajara-neri",
