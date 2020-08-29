@@ -8,14 +8,12 @@ import { fetchClients } from 'store/Clients/actions';
 
 import { Container, Box, useTheme, Theme } from '@material-ui/core';
 
-import { usePrefix } from 'utils/i18n';
 import { withPrefix } from 'components/ux/Typography';
 import Table from 'components/ux/Table';
 import RefreshButton from 'components/ux/Table/RefreshButton';
+import { useColumnsWithI18n } from '~/components/ux/Table/useColumnsWithI18n';
 
 const Typography = withPrefix('Pages.Clients');
-
-const t = usePrefix('Pages.Clients.Table.Headers');
 
 const Clients: React.FC = () => {
   const dispatch = useDispatch();
@@ -28,26 +26,26 @@ const Clients: React.FC = () => {
     if (fetchStatus !== 'fetched') dispatch(fetchClients());
   }, []);
 
-  const columns = React.useMemo(
-    () => [
+  const columns = useColumnsWithI18n(
+    [
       {
-        Header: t('Name'),
+        Header: 'Name',
         accessor: 'name',
       },
       {
-        Header: t('CPF'),
+        Header: 'CPF',
         accessor: 'cpf',
       },
       {
-        Header: t('Email'),
+        Header: 'Email',
         accessor: 'email',
       },
       {
-        Header: t('Phone'),
+        Header: 'Phone',
         accessor: 'phone',
       },
     ],
-    []
+    'Pages.Clients.Table.Headers'
   );
 
   return (
