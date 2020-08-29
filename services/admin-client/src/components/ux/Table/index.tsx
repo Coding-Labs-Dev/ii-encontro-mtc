@@ -9,8 +9,9 @@ import {
   TableHead,
   TableRow,
   Paper,
-  Typography,
+  Box,
 } from '@material-ui/core';
+import Typography from 'components/ux/Typography';
 
 import { TableCell } from './styles';
 
@@ -65,6 +66,11 @@ const Table: React.FC<Props> = ({ columns, data }) => {
           })}
         </TableBody>
       </MUITable>
+      {!rows.length && (
+        <Box py={1}>
+          <Typography text="UX.Table.NoData" align="center" />
+        </Box>
+      )}
     </TableContainer>
   );
 };

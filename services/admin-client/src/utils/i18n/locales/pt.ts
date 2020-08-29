@@ -2,6 +2,11 @@ export default {
   Application: {
     Name: 'SBCMTC',
   },
+  UX: {
+    Table: {
+      NoData: 'Nenhum dado encontrado',
+    },
+  },
   Navigation: {
     Dashboard: {
       Title: 'Dashboard',
