@@ -3,7 +3,7 @@ import React from 'react';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from 'store/rootState';
-import { getClients, getFetchStatus } from 'store/Clients/selectos';
+import { getClients, getFetchStatus } from 'store/Clients/selectors';
 import { fetchClients } from 'store/Clients/actions';
 
 import { Container, Box, useTheme, Theme } from '@material-ui/core';
