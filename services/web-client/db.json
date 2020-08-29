@@ -55,7 +55,7 @@
     {
       "id": "speaker_prof_sergio_areias",
       "name": "Prof. Sergio Areias",
-      "description": "",
+      "description": "Radiestesista",
       "international": false,
       "image": "/images/speakers/sergio-areias.jpg"
     },
@@ -83,7 +83,7 @@
     {
       "id": "speaker_prof_henrique_afonso",
       "name": "Prof. Henrique Afonso",
-      "description": "",
+      "description": "Fisioterapeuta",
       "international": false,
       "image": "/images/speakers/henrique-afonso.jpg"
     },
@@ -98,14 +98,14 @@
     {
       "id": "speaker_unyrajara-neri",
       "name": "Prof. Ubyrajara Graça Neri",
-      "description": "",
+      "description": "Acupunturista Esoterico",
       "international": false,
       "image": "/images/speakers/ubyrajara-neri.jpg"
     },
     {
       "id": "speaker_leonardo_lomabardi_silva",
       "name": "Prof. Leonardo Lombardi Silva",
-      "description": "",
+      "description": "Acupunturista pelo Ismet de Barcelona - ES",
       "international": false,
       "image": "/images/speakers/leonardo-lombardi.jpg"
     }
@@ -366,8 +366,8 @@
       }
     ],
     "installments": {
-      "date": "10/09",
-      "utc": "2020-09-10T00:00:00.000-03:00",
+      "date": "10/08",
+      "utc": "2020-08-10T00:00:00.000-03:00",
       "before": 10,
       "after": 6
     },
