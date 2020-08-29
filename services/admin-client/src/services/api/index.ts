@@ -32,3 +32,9 @@ class Api {
 export default Api.getInstance();
 
 export const { injectToken } = Api;
+
+export const parseError = (error: any) => {
+  const { response } = error;
+  if (!response) return error;
+  throw new Error(response.data);
+};

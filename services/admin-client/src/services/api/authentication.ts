@@ -1,4 +1,4 @@
-import api from 'services/api';
+import api, { parseError } from 'services/api';
 
 export interface SignInPayload {
   isAuth: boolean;
@@ -23,11 +23,7 @@ export const signIn = (
       }
     )
     .then(response => response.data)
-    .catch(error => {
-      const { response } = error;
-      if (!response) return error;
-      throw new Error(response.data);
-    });
+    .catch(parseError);
 
 export const checkSession = (): Promise<CheckSessionPayload> =>
   api
