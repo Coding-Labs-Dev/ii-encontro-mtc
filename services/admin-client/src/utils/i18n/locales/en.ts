@@ -49,5 +49,25 @@ export default {
         },
       },
     },
+    Transactions: {
+      Title: 'Transactions',
+      Table: {
+        Headers: {
+          Code: 'Code',
+          Client: 'Client',
+          Location: 'Location',
+          Reference: 'Reference',
+          Status: 'Status',
+          Date: 'Date',
+          PaymentMethod: 'Payment Method',
+          paymentLink: 'Payment URL',
+          grossAmount: 'Gross Amount',
+          feeAmount: 'Fee Amount',
+          netAmount: 'Net Amount',
+          extraAmount: 'Extra Amount',
+          installmentCount: 'Installments',
+        },
+      },
+    },
   },
 };

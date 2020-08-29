@@ -49,5 +49,25 @@ export default {
         },
       },
     },
+    Transactions: {
+      Title: 'Transações',
+      Table: {
+        Headers: {
+          Code: 'Código',
+          Client: 'Inscrito',
+          Location: 'Local',
+          Reference: 'Referência',
+          Status: 'Status',
+          Date: 'Data',
+          PaymentMethod: 'Forma de Pagamento',
+          paymentLink: 'Link Boleto',
+          grossAmount: 'Valor Bruto',
+          feeAmount: 'Tarifa',
+          netAmount: 'Valor Liquido',
+          extraAmount: 'Valor Adicional',
+          installmentCount: 'Parcelas',
+        },
+      },
+    },
   },
 };
