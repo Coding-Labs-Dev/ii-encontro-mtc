@@ -33,6 +33,7 @@ module.exports = {
     'no-console': ['error', { allow: ['error'] }],
     'import/extensions': 'off',
     'no-console': ['error', { allow: ['warn', 'error'] }],
+    'react/require-default-props': 'off',
   },
   settings: {
     'import/parsers': {

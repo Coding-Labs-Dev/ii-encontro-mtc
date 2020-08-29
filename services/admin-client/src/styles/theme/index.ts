@@ -24,6 +24,26 @@ const theme: ThemeOptions = {
         },
       },
     },
+    MuiTypography: {
+      h1: {
+        fontFamily: 'Poppins, Roboto, sans-serif',
+      },
+      h2: {
+        fontFamily: 'Poppins, Roboto, sans-serif',
+      },
+      h3: {
+        fontFamily: 'Poppins, Roboto, sans-serif',
+      },
+      h4: {
+        fontFamily: 'Poppins, Roboto, sans-serif',
+      },
+      h5: {
+        fontFamily: 'Poppins, Roboto, sans-serif',
+      },
+      h6: {
+        fontFamily: 'Poppins, Roboto, sans-serif',
+      },
+    },
   },
   props: {
     MuiButton: {
@@ -36,7 +56,7 @@ const theme: ThemeOptions = {
       disableRipple: true,
       disableTouchRipple: true,
       disableFocusRipple: true,
-    }
+    },
   },
 };
 

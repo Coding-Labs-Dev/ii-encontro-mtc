@@ -1,5 +1,5 @@
 import React from 'react';
-import { useTheme, Theme } from '@material-ui/core';
+import { useTheme, Theme, Box } from '@material-ui/core';
 
 import { Wrapper, Main } from './styles';
 import Navigation from '~/components/Navigation';
@@ -12,7 +12,11 @@ const DefaultLayout: React.FC = ({ children }) => {
     <Wrapper type={palette.type}>
       <Header />
       <Navigation />
-      <Main>{children}</Main>
+      <Main>
+        <Box px={3} py={4}>
+          {children}
+        </Box>
+      </Main>
     </Wrapper>
   );
 };
