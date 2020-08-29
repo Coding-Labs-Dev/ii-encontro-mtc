@@ -32,7 +32,7 @@ module.exports = {
     'import/no-cycle': [2, { maxDepth: 1 }],
     'no-console': ['error', { allow: ['error'] }],
     'import/extensions': 'off',
-    'no-console': ['error', { allow: ['warn', 'error'] }],
+    'no-console': 'off',
     'react/require-default-props': 'off',
   },
   settings: {

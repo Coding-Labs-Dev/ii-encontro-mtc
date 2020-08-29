@@ -43,6 +43,17 @@ const theme: ThemeOptions = {
       h6: {
         fontFamily: 'Poppins, Roboto, sans-serif',
       },
+      subtitle2: {
+        fontFamily: 'Poppins, Roboto, sans-serif',
+      },
+      button: {
+        fontFamily: 'Poppins, Roboto, sans-serif',
+      },
+    },
+    MuiListItemText: {
+      root: {
+        fontFamily: 'Poppins, Roboto, sans-serif',
+      },
     },
   },
   props: {
