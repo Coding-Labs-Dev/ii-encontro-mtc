@@ -5,17 +5,16 @@ export default {
   Navigation: {
     Dashboard: {
       Title: 'Dashboard',
-      Realtime: 'Realtime',
-      Audience: 'Audience',
-      TraficSource: 'Trafic Source',
     },
-    Wallet: {
-      Title: 'Wallet',
-      Balance: 'Balance',
+    Clients: {
+      Title: 'Inscritos',
     },
-  },
-  Settings: {
-    DarkMode: 'Modo Escuro',
+    Entries: {
+      Title: 'Inscrições',
+    },
+    Transactions: {
+      Title: 'Transações',
+    },
   },
   Forms: {
     Errors: {
@@ -38,6 +37,9 @@ export default {
         LogIn: 'Entrar',
         ForgotPassword: 'Esqueceu a senha?',
       },
+    },
+    Clients: {
+      Title: 'Inscritos',
     },
   },
 };
