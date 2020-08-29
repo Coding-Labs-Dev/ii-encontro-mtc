@@ -6,6 +6,7 @@ import { Wrapper } from './styles';
 import NotificationIndicator from './NotificationIndicator';
 import UserAvatar from './UserAvatar';
 import SwitchTheme from './SwitchTheme';
+import SwitchLanguage from './SwitchLanguage';
 
 const Header: React.FC = () => {
   const { palette } = useTheme<Theme>();
@@ -23,6 +24,7 @@ const Header: React.FC = () => {
         py={1}
       >
         <div className="header__actions">
+          <SwitchLanguage />
           <SwitchTheme />
           <NotificationIndicator />
           <UserAvatar />
