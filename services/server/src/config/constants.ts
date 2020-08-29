@@ -12,5 +12,5 @@ export const ROLLBAR_KEY = process.env.ROLLBAR_KEY || '';
 
 export const COOKIE_OPTIONS = {
   httpOnly: true,
-  maxAge: 360000,
+  maxAge: 3600000,
 };

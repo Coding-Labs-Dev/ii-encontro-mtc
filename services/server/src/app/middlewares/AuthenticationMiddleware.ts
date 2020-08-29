@@ -11,7 +11,7 @@ const AuthenticationMiddleware = async (
   next: NextFunction
 ) => {
   if (!req.cookies || !req.cookies.accessToken || !req.headers.authorization) {
-    return res.status(401).json({ msg: 'Access denied. No token provided.' });
+    return res.status(401).send('Access denied. No token provided.');
   }
   // get the token from the header if present
   const token = req.cookies.accessToken;
@@ -34,16 +34,18 @@ const AuthenticationMiddleware = async (
 
         return next();
       }
-      return res
-        .status(401)
-        .clearCookie('accessToken', { ...COOKIE_OPTIONS, maxAge: null })
-        .clearCookie('refreshToken', { ...COOKIE_OPTIONS, maxAge: null })
-        .json({ msg: 'Invalid token' });
+      return (
+        res
+          .status(401)
+          .clearCookie('accessToken', { ...COOKIE_OPTIONS, maxAge: null })
+          // .clearCookie('refreshToken', { ...COOKIE_OPTIONS, maxAge: null })
+          .send('Invalid token')
+      );
     });
   } catch (err) {
     console.log(err);
     // if invalid token
-    return res.status(401).json({ msg: err.message });
+    return res.status(401).send(err.message);
   }
 };
 

@@ -11,7 +11,7 @@ import { Document } from 'dynamoose/dist/Document';
 class SessionController {
   async show(req: Request, res: Response): Promise<Response> {
     if (!req.cookies || !req.cookies.accessToken) {
-      return res.status(401).json({ msg: 'Access denied. No token provided.' });
+      return res.status(401).send('Access denied. No token provided');
     }
 
     if (!req.headers.authorization) {
@@ -19,7 +19,7 @@ class SessionController {
         .status(401)
         .clearCookie('accessToken', { ...COOKIE_OPTIONS, maxAge: null })
         .clearCookie('refreshToken', { ...COOKIE_OPTIONS, maxAge: null })
-        .json({ msg: 'Invalid header token' });
+        .send('Invalid header token');
     }
     const { accessToken } = req.cookies;
     const verificationToken = req.headers.authorization.split(' ')[1];
@@ -31,13 +31,13 @@ class SessionController {
           .status(401)
           .clearCookie('accessToken', { ...COOKIE_OPTIONS, maxAge: null })
           .clearCookie('refreshToken', { ...COOKIE_OPTIONS, maxAge: null })
-          .json({ msg: 'No verification token' });
+          .send('No verification token');
 
       const decoded = jwt.verify(accessToken, APP_KEY, {
         algorithms: ['HS256'],
       }) as { sub: string };
       if (!decoded) {
-        return res.status(400).json({ msg: 'Invalid token' });
+        return res.status(400).send('Invalid token');
       }
 
       const auth = bcrypt.compareSync(decoded.sub, verificationToken);
@@ -46,11 +46,11 @@ class SessionController {
           .status(401)
           .clearCookie('accessToken', { ...COOKIE_OPTIONS, maxAge: null })
           .clearCookie('refreshToken', { ...COOKIE_OPTIONS, maxAge: null })
-          .json({ msg: 'Invalid bearer token' });
+          .send('Invalid bearer token');
 
       return res.status(200).json({ isAuth: true });
     } catch (err) {
-      return res.status(401).json({ msg: err.message });
+      return res.status(401).send(err.message);
     }
   }
 
@@ -90,7 +90,6 @@ class SessionController {
     };
 
     if (!saveSession) {
-      delete authOptions.maxAge;
       delete refreshOptions.maxAge;
     }
 
@@ -105,9 +104,7 @@ class SessionController {
   }
   async update(req: Request, res: Response): Promise<Response> {
     if (!req.cookies || !req.cookies.refreshToken) {
-      return res
-        .status(401)
-        .json({ msg: 'Access denied. No refresh token provided.' });
+      return res.status(401).send('Access denied. No refresh token provided');
     }
     // get the token from the header if present
     const { refreshToken } = req.cookies;
@@ -118,7 +115,7 @@ class SessionController {
         algorithms: ['HS256'],
       });
       if (!decoded) {
-        return res.status(400).json({ msg: 'Invalid token' });
+        return res.status(400).send('Invalid token');
       }
 
       const { sub: id } = decoded as { sub: string };
@@ -126,12 +123,12 @@ class SessionController {
       const user = await User.get({ id });
 
       if (!user) {
-        return res.status(400).json({ msg: 'User not found' });
+        return res.status(400).send('User not found');
       }
 
       const { refreshTokens } = user.toJSON();
       if (!refreshTokens || !refreshTokens.includes(refreshToken)) {
-        return res.status(401).json({ msg: 'No valid refresh tokens found' });
+        return res.status(401).send('No valid refresh tokens found');
       }
 
       const { accessToken, verificationToken } = await generateAuthToken(user);
@@ -144,7 +141,7 @@ class SessionController {
         });
     } catch (err) {
       // if invalid token
-      return res.status(401).json({ msg: err.message });
+      return res.status(401).send(err.message);
     }
   }
 }
