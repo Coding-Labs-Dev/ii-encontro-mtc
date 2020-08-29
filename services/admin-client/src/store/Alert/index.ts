@@ -1,19 +1,16 @@
 import { v4 as uuid } from 'uuid';
 import { List } from 'immutable';
-import { Reducer } from 'redux';
-import { ActionTypes, AlertState } from './types';
+import { AlertState, Alert } from './types';
+import { AlertAction } from './actions';
 
-export const INITIAL_STATE: AlertState = List();
+export const INITIAL_STATE: AlertState = List<Alert>();
 
-const alertReducer: Reducer<AlertState> = (
-  state = INITIAL_STATE,
-  { type, payload }
-) => {
-  switch (type) {
-    case ActionTypes.CREATE_ALERT:
-      return state.push({ ...payload, id: uuid() });
-    case ActionTypes.REMOVE_ALERT: {
-      const index = state.findIndex(alert => alert.id === payload.id);
+const alertReducer = (state = INITIAL_STATE, action: AlertAction) => {
+  switch (action.type) {
+    case 'Alert/CREATE_ALERT':
+      return state.push({ ...action.payload, id: uuid() });
+    case 'Alert/REMOVE_ALERT': {
+      const index = state.findIndex(alert => alert.id === action.payload.id);
       return state.remove(index);
     }
     default:

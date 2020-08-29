@@ -1,10 +1,5 @@
 import { List } from 'immutable';
 
-export enum ActionTypes {
-  CREATE_ALERT = '@Alert/CREATE_ALERT',
-  REMOVE_ALERT = '@Alert/REMOVE_ALERT',
-}
-
 export type AlertType = 'info' | 'success' | 'warning' | 'error';
 
 export interface Alert {
