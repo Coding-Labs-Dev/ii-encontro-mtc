@@ -38,5 +38,16 @@ export default {
         ForgotPassword: 'Forgot Password?',
       },
     },
+    Clients: {
+      Title: 'Clients',
+      Table: {
+        Headers: {
+          Name: 'Name',
+          CPF: 'CPF',
+          Email: 'Email',
+          Phone: 'Phone',
+        },
+      },
+    },
   },
 };

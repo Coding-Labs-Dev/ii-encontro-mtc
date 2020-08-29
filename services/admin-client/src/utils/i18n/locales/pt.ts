@@ -40,6 +40,14 @@ export default {
     },
     Clients: {
       Title: 'Inscritos',
+      Table: {
+        Headers: {
+          Name: 'Nome',
+          CPF: 'CPF',
+          Email: 'E-mail',
+          Phone: 'Telefone',
+        },
+      },
     },
   },
 };
