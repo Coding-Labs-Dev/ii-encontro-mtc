@@ -66,6 +66,7 @@ const Transactions: React.FC = () => {
               },
               print: true,
             }}
+            plugins={['exportData']}
           />
         </Box>
       </Container>
