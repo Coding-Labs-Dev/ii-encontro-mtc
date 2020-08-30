@@ -26,7 +26,6 @@ const Header: React.FC = () => {
         <div className="header__actions">
           <SwitchLanguage />
           <SwitchTheme />
-          <NotificationIndicator />
           <UserAvatar />
         </div>
       </Box>
