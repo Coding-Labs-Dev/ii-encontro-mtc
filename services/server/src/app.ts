@@ -12,7 +12,7 @@ import routes from './routes';
 import HttpExceptionHandler from 'middlewares/HttpExceptionMiddleware';
 import AuthenticationMiddleware from 'middlewares/AuthenticationMiddleware';
 
-const whiteList = [/localhost/, /\.sbcmtc\.com\.br$/];
+const whiteList = [/localhost/, /\.sbcmtc\.com\.br$/, /pagseguro/, /uol/];
 
 class App {
   public server: Express;
