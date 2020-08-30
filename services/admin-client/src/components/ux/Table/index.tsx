@@ -12,7 +12,11 @@ import {
   Box,
   useTheme,
   Theme,
+  IconButton,
 } from '@material-ui/core';
+import PrintIcon from '@material-ui/icons/Print';
+import { useReactToPrint } from 'react-to-print';
+
 import Typography from 'components/ux/Typography';
 
 import { TableCell } from './styles';
@@ -26,12 +30,19 @@ export interface Props {
       onClick: () => void;
       isLoading: boolean;
     };
+    print?: boolean;
   };
 }
 
 const Table: React.FC<Props> = ({ columns, data, toolbar }) => {
   const tableInstance = useTable({ columns, data });
   const theme = useTheme<Theme>();
+  const tableRef = React.useRef<HTMLTableElement | null>(null);
+  const handlePrint = useReactToPrint({
+    content: () => tableRef?.current,
+    pageStyle: 'padding: 100px',
+    removeAfterPrint: true,
+  });
 
   const {
     getTableProps,
@@ -43,9 +54,17 @@ const Table: React.FC<Props> = ({ columns, data, toolbar }) => {
 
   const Toolbar = React.useCallback(() => {
     if (!toolbar) return null;
-    const { refresh } = toolbar;
+    const { refresh, print } = toolbar;
+
     const Refresh: React.FC = () =>
       refresh ? <RefreshButton {...refresh} /> : null;
+
+    const Print: React.FC = () =>
+      print ? (
+        <IconButton size="small" onClick={handlePrint}>
+          <PrintIcon />
+        </IconButton>
+      ) : null;
 
     return (
       <Box
@@ -53,7 +72,13 @@ const Table: React.FC<Props> = ({ columns, data, toolbar }) => {
         display="flex"
         justifyContent="flex-end"
       >
-        <Box display="grid" gridGap={theme.spacing(2)} gridAutoColumns="1fr">
+        <Box
+          display="grid"
+          gridGap={theme.spacing(2)}
+          gridAutoColumns="1fr"
+          gridAutoFlow="column"
+        >
+          <Print />
           <Refresh />
         </Box>
       </Box>
@@ -63,7 +88,7 @@ const Table: React.FC<Props> = ({ columns, data, toolbar }) => {
   return (
     <>
       <Toolbar />
-      <TableContainer component={Paper}>
+      <TableContainer component={Paper} ref={tableRef}>
         <MUITable {...getTableProps()}>
           <TableHead>
             {headerGroups.map(headerGroup => (

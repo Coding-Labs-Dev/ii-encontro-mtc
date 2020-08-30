@@ -63,6 +63,7 @@ const Transactions: React.FC = () => {
                 onClick: () => dispatch(fetchTransactions()),
                 isLoading: fetchStatus === 'fetching',
               },
+              print: true,
             }}
           />
         </Box>

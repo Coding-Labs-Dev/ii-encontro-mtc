@@ -59,6 +59,7 @@ const Clients: React.FC = () => {
                 onClick: () => dispatch(fetchClients()),
                 isLoading: fetchStatus === 'fetching',
               },
+              print: true,
             }}
           />
         </Box>
