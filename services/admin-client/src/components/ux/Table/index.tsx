@@ -14,13 +14,18 @@ import {
   Theme,
   IconButton,
 } from '@material-ui/core';
-import PrintIcon from '@material-ui/icons/Print';
+import { Print as PrintIcon } from '@material-ui/icons';
+
 import { useReactToPrint } from 'react-to-print';
+import { useExportData } from 'react-table-plugins';
 
 import Typography from 'components/ux/Typography';
 
 import { TableCell } from './styles';
 import RefreshButton from './RefreshButton';
+import DownloadData, { getExportFileBlob } from './DownloadData';
+
+export type Plugins = 'exportData';
 
 export interface Props {
   data: Array<any>;
@@ -32,10 +37,28 @@ export interface Props {
     };
     print?: boolean;
   };
+  plugins?: Array<Plugins>;
 }
 
-const Table: React.FC<Props> = ({ columns, data, toolbar }) => {
-  const tableInstance = useTable({ columns, data });
+const Table: React.FC<Props> = ({ columns, data, toolbar, plugins }) => {
+  const getPlugins = React.useMemo(() => {
+    if (!plugins || !plugins.length) return [];
+    return plugins
+      .map(plugin => {
+        switch (plugin) {
+          case 'exportData':
+            return useExportData;
+          default:
+            return null;
+        }
+      })
+      .filter(value => value);
+  }, [plugins]);
+
+  const tableInstance = useTable<{ exportData: string }>(
+    { columns, data, getExportFileBlob },
+    ...getPlugins
+  );
   const theme = useTheme<Theme>();
   const tableRef = React.useRef<HTMLTableElement | null>(null);
   const handlePrint = useReactToPrint({
@@ -50,6 +73,7 @@ const Table: React.FC<Props> = ({ columns, data, toolbar }) => {
     headerGroups,
     rows,
     prepareRow,
+    exportData,
   } = tableInstance;
 
   const Toolbar = React.useCallback(() => {
@@ -78,12 +102,13 @@ const Table: React.FC<Props> = ({ columns, data, toolbar }) => {
           gridAutoColumns="1fr"
           gridAutoFlow="column"
         >
+          {exportData && <DownloadData download={exportData} />}
           <Print />
           <Refresh />
         </Box>
       </Box>
     );
-  }, [toolbar]);
+  }, [toolbar, plugins, exportData]);
 
   return (
     <>

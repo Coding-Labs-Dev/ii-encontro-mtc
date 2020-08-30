@@ -61,6 +61,7 @@ const Clients: React.FC = () => {
               },
               print: true,
             }}
+            plugins={['exportData']}
           />
         </Box>
       </Container>
