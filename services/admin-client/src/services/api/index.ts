@@ -57,6 +57,16 @@ class Api {
     );
   }
 
+  public static removeToken() {
+    Api.instance.interceptors.request.use(configuration => ({
+      ...configuration,
+      headers: {
+        ...configuration.headers,
+        Authorization: null,
+      },
+    }));
+  }
+
   public static getInstance(): AxiosInstance {
     if (!Api.instance) {
       Api.instance = new Api() as AxiosInstance;
@@ -72,6 +82,7 @@ class Api {
 export default Api.getInstance();
 
 export const { injectToken } = Api;
+export const { removeToken } = Api;
 
 export const parseError = (error: any) => {
   const { response } = error;

@@ -37,6 +37,10 @@ const authenticationReducer = (
         fetchSession: FetchStatus.errorFetching,
         checkedSession: true,
       });
+    case 'Authentication/SIGN_OUT_SUCCESS':
+      return state.merge({
+        isAuth: false,
+      });
     default:
       return state;
   }

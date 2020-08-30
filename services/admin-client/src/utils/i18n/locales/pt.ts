@@ -6,6 +6,9 @@ export default {
     Table: {
       NoData: 'Nenhum dado encontrado',
     },
+    UserMenu: {
+      Logout: 'Encerrar sessão',
+    },
   },
   Navigation: {
     Dashboard: {

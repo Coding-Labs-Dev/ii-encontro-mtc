@@ -9,7 +9,7 @@ import {
   removeLocalStorageItem,
   isLocaltStorageItemSet,
 } from '~/utils/localStorage';
-import { injectToken } from '~/services/api';
+import { injectToken, removeToken } from '~/services/api';
 
 export const fetchAuthenticationRequest = () =>
   action('Authentication/FETCH_AUTHENTICATION_REQUEST');
@@ -28,6 +28,8 @@ export const fetchCheckAuthenticationSuccess = (payload: boolean) =>
 
 export const fetchCheckAuthenticationFailure = () =>
   action('Authentication/FETCH_CHECK_AUTHENTICATION_FAILURE');
+
+export const signOutSuccess = () => action('Authentication/SIGN_OUT_SUCCESS');
 
 export const signIn = (
   email: string,
@@ -69,10 +71,22 @@ export const checkSession = (): ThunkAction<
   }
 };
 
+export const signOut = (): ThunkAction<
+  void,
+  RootState,
+  undefined,
+  AnyAction
+> => dispatch => {
+  removeLocalStorageItem('verificationToken');
+  removeToken();
+  dispatch(signOutSuccess());
+};
+
 export type AuthenticationAction =
   | ActionType<typeof fetchAuthenticationRequest>
   | ActionType<typeof fetchAuthenticationSuccess>
   | ActionType<typeof fetchAuthenticationFailure>
   | ActionType<typeof fetchCheckAuthenticationRequest>
   | ActionType<typeof fetchCheckAuthenticationSuccess>
-  | ActionType<typeof fetchCheckAuthenticationFailure>;
+  | ActionType<typeof fetchCheckAuthenticationFailure>
+  | ActionType<typeof signOutSuccess>;
