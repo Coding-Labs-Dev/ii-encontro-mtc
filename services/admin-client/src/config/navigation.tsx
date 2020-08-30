@@ -20,11 +20,6 @@ const navigationLinks: Array<NavigationLink> = [
     icon: <People />,
   },
   {
-    i18n: 'Entries.Title',
-    route: '/entries',
-    icon: <ListAlt />,
-  },
-  {
     i18n: 'Transactions.Title',
     route: '/transactions',
     icon: <Receipt />,
