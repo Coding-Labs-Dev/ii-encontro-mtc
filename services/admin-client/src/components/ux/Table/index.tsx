@@ -14,6 +14,7 @@ import {
   Theme,
   IconButton,
 } from '@material-ui/core';
+import Skeleton from '@material-ui/lab/Skeleton';
 import { Print as PrintIcon } from '@material-ui/icons';
 
 import { useReactToPrint } from 'react-to-print';
@@ -38,9 +39,16 @@ export interface Props {
     print?: boolean;
   };
   plugins?: Array<Plugins>;
+  isLoading?: boolean;
 }
 
-const Table: React.FC<Props> = ({ columns, data, toolbar, plugins }) => {
+const Table: React.FC<Props> = ({
+  columns,
+  data,
+  toolbar,
+  plugins,
+  isLoading,
+}) => {
   const getPlugins = React.useMemo(() => {
     if (!plugins || !plugins.length) return [];
     return plugins
@@ -110,6 +118,27 @@ const Table: React.FC<Props> = ({ columns, data, toolbar, plugins }) => {
     );
   }, [toolbar, plugins, exportData]);
 
+  interface LoaderProps {
+    numRows: number;
+    current: number;
+  }
+
+  const Loader: React.FC<LoaderProps> = ({ numRows, current }) => {
+    if (numRows === current) return null;
+    return (
+      <>
+        <TableRow>
+          {columns.map(col => (
+            <TableCell key={`skeleton_${current}_${col.accessor}`}>
+              <Skeleton animation="wave" />
+            </TableCell>
+          ))}
+        </TableRow>
+        <Loader numRows={numRows} current={current + 1} />
+      </>
+    );
+  };
+
   return (
     <>
       <Toolbar />
@@ -129,22 +158,26 @@ const Table: React.FC<Props> = ({ columns, data, toolbar, plugins }) => {
             ))}
           </TableHead>
           <TableBody {...getTableBodyProps()}>
-            {rows.map(row => {
-              prepareRow(row);
-              return (
-                <TableRow {...row.getRowProps()}>
-                  {row.cells.map(cell => {
-                    return (
-                      <TableCell {...cell.getCellProps()}>
-                        <Typography variant="body2">
-                          {cell.render('Cell')}
-                        </Typography>
-                      </TableCell>
-                    );
-                  })}
-                </TableRow>
-              );
-            })}
+            {!isLoading ? (
+              rows.map(row => {
+                prepareRow(row);
+                return (
+                  <TableRow {...row.getRowProps()}>
+                    {row.cells.map(cell => {
+                      return (
+                        <TableCell {...cell.getCellProps()}>
+                          <Typography variant="body2">
+                            {cell.render('Cell')}
+                          </Typography>
+                        </TableCell>
+                      );
+                    })}
+                  </TableRow>
+                );
+              })
+            ) : (
+              <Loader numRows={5} current={0} />
+            )}
           </TableBody>
         </MUITable>
         {!rows.length && (

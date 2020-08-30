@@ -52,6 +52,7 @@ const Clients: React.FC = () => {
         <Typography variant="h5" text="Title" />
         <Box my={4}>
           <Table
+            isLoading={fetchStatus === 'fetching'}
             columns={columns}
             data={clients.toJS()}
             toolbar={{
