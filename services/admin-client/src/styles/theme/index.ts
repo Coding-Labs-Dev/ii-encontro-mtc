@@ -1,6 +1,10 @@
 import { ThemeOptions } from '@material-ui/core/styles';
+import {
+  PaletteOptions,
+  SimplePaletteColorOptions,
+} from '@material-ui/core/styles/createPalette';
 
-const theme: ThemeOptions = {
+const globalTheme: ThemeOptions = {
   breakpoints: {
     values: {
       xs: 0,
@@ -71,6 +75,22 @@ const theme: ThemeOptions = {
   },
 };
 
-export default theme;
+export const themeColorOverrides = (theme: PaletteOptions): ThemeOptions => {
+  const primary = theme.primary as SimplePaletteColorOptions;
+  return {
+    overrides: {
+      MuiIconButton: {
+        root: {
+          '&:hover': {
+            backgroundColor: 'transparent',
+            color: primary.main,
+          },
+        },
+      },
+    },
+  };
+};
+
+export default globalTheme;
 export { default as darkTheme } from './dark';
 export { default as lightTheme } from './light';

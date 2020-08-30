@@ -2,7 +2,11 @@ import React, { useMemo, createContext } from 'react';
 import { ThemeProvider, createMuiTheme, CssBaseline } from '@material-ui/core';
 
 import usePersistedState from '~/utils/usePersistedState';
-import globalTheme, { darkTheme, lightTheme } from '~/styles/theme';
+import globalTheme, {
+  themeColorOverrides,
+  darkTheme,
+  lightTheme,
+} from '~/styles/theme';
 
 interface ThemeContextProps {
   theme?: 'light' | 'dark';
@@ -21,10 +25,13 @@ const ThemeContextProvider: React.FC = ({ children }) => {
 
   const selectedTheme = useMemo(
     () =>
-      createMuiTheme({
-        ...globalTheme,
-        palette: theme === 'light' ? { ...lightTheme } : { ...darkTheme },
-      }),
+      createMuiTheme(
+        {
+          palette: theme === 'light' ? { ...lightTheme } : { ...darkTheme },
+        },
+        globalTheme,
+        themeColorOverrides(theme === 'light' ? lightTheme : darkTheme)
+      ),
     [theme]
   );
 
