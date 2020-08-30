@@ -180,7 +180,7 @@ const Table: React.FC<Props> = ({
             )}
           </TableBody>
         </MUITable>
-        {!rows.length && (
+        {!isLoading && !rows.length && (
           <Box py={1}>
             <Typography text="UX.Table.NoData" align="center" />
           </Box>
