@@ -46,6 +46,9 @@ export default {
         ForgotPassword: 'Forgot Password?',
       },
     },
+    Dashboard: {
+      Title: 'Dashboard',
+    },
     Clients: {
       Title: 'Clients',
       Table: {

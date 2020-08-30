@@ -46,6 +46,9 @@ export default {
         ForgotPassword: 'Esqueceu a senha?',
       },
     },
+    Dashboard: {
+      Title: 'Dashboard',
+    },
     Clients: {
       Title: 'Inscritos',
       Table: {
