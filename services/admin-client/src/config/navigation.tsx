@@ -1,5 +1,5 @@
 import React from 'react';
-import { Apps, People, ListAlt, Receipt } from '@material-ui/icons';
+import { Apps, People, Receipt } from '@material-ui/icons';
 
 export interface NavigationLink {
   i18n: string;

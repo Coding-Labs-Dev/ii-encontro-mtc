@@ -98,7 +98,10 @@
   "scripts": {
     "bundle": "webpack",
     "dev": "cross-env TS_NODE_PROJECT=\"tsconfig.webpack.json\" webpack-dev-server --mode development --open --hot",
+    "prebuild": "rm -rf ./.build",
     "build": "cross-env TS_NODE_PROJECT=\"tsconfig.webpack.json\" webpack --mode production",
+    "predeploy": "yarn build",
+    "deploy": "aws s3 sync ./.build s3://br-com-encontromtc-admin",
     "lint": "lint-staged",
     "check-types": "tsc"
   },

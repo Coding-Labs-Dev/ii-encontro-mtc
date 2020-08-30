@@ -3,7 +3,6 @@ import React from 'react';
 import { useTheme, Theme, Box } from '@material-ui/core';
 
 import { Wrapper } from './styles';
-import NotificationIndicator from './components/NotificationIndicator';
 import UserAvatar from './components/UserAvatar';
 import SwitchTheme from './components/SwitchTheme';
 import SwitchLanguage from './components/SwitchLanguage';

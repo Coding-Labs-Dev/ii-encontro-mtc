@@ -17,7 +17,7 @@ const gitRevisionPlugin = new GitRevisionPlugin();
 const config: webpack.Configuration = {
   entry: ['react-hot-loader/patch', './src/index'],
   output: {
-    path: path.resolve(__dirname, '/dist'),
+    path: path.resolve(__dirname, '.build'),
     filename: 'bundle.js',
     publicPath: '/',
   },
@@ -72,7 +72,6 @@ const config: webpack.Configuration = {
       },
     ],
   },
-  watch: true,
   plugins: [
     new ForkTsCheckerWebpackPlugin({
       eslint: {
