@@ -321,7 +321,7 @@ const Inscricao: NextPage<Props> = ({ subscriptions }) => {
     setValue('items.item.amount', singlePaymentValue);
   }, [initPaymentSession]);
 
-  const onSubmit = (data: any) => {
+  const onSubmit = () => {
     setOpenConfirmationModal(true);
   };
 

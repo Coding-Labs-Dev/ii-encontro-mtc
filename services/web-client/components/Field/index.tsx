@@ -158,7 +158,7 @@ const FieldComponent: React.FC<Props> = ({
                 key={option.value}
                 value={option.value}
                 label={option.label}
-                onChange={(e) => props.onChange(option.value)}
+                onChange={() => props.onChange(option.value)}
                 control={<Radio color="primary" />}
               />
             ))}
