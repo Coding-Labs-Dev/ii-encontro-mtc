@@ -16,7 +16,7 @@ interface CreateAlertParams {
 }
 
 const useAlert = () => {
-  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  const { enqueueSnackbar } = useSnackbar();
 
   const createAlert = (params: CreateAlertParams) => {
     const { content, type, options = {} } = params;
