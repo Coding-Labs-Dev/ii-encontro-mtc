@@ -26,7 +26,7 @@ const schema = new Schema(
       type: String,
       hashKey: true,
       required: true,
-      default: () => ulid(),
+      default: ulid,
     },
     transactions: {
       type: Array,
@@ -60,7 +60,7 @@ const schema = new Schema(
         return value;
       },
     },
-    dob: { type: Number, required: true },
+    dob: { type: Date, required: true },
     street: { type: String, required: true },
     number: { type: String, required: true },
     complement: { type: String, required: true },

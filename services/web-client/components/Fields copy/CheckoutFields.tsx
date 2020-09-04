@@ -36,7 +36,7 @@ export const fields = {
       },
     },
     {
-      name: 'sender.senderName',
+      name: 'sender.name',
       type: 'text',
       label: 'Nome Completo',
       placeholder: 'Digite o seu nome e sobrenome',
@@ -53,7 +53,12 @@ export const fields = {
       },
     },
     {
-      name: 'sender.senderCPF',
+      name: 'sender.documents.document.type',
+      type: 'hidden',
+      defaultValue: 'CPF',
+    },
+    {
+      name: 'sender.documents.document.value',
       type: 'tel',
       label: 'CPF',
       placeholder: '000.000.000-00',
@@ -97,7 +102,7 @@ export const fields = {
       },
     },
     {
-      name: 'sender.senderEmail',
+      name: 'sender.email',
       type: 'email',
       label: 'E-mail',
       placeholder: 'Digite o seu e-mail',
@@ -115,7 +120,7 @@ export const fields = {
       },
     },
     {
-      name: 'sender.senderFullPhone',
+      name: 'sender.fullPhone',
       type: 'tel',
       label: 'Telefone',
       placeholder: '(00) 00000-0000',
@@ -133,7 +138,7 @@ export const fields = {
       },
     },
     {
-      name: 'sender.senderBirthDate',
+      name: 'sender.birthDate',
       type: 'tel',
       label: 'Data de Nascimento',
       size: 'half',
@@ -153,7 +158,7 @@ export const fields = {
   ],
   shipping: [
     {
-      name: 'shippingAddress.shippingAddressStreet',
+      name: 'shipping.street',
       type: 'text',
       label: 'Endereço',
       placeholder: 'Rua, Avenida, Condomínio, Bloco, etc..',
@@ -170,7 +175,7 @@ export const fields = {
       },
     },
     {
-      name: 'shippingAddress.shippingAddressComplement',
+      name: 'shipping.complement',
       type: 'text',
       label: 'Complemento',
       placeholder: 'Digite o complemento',
@@ -187,7 +192,7 @@ export const fields = {
       },
     },
     {
-      name: 'shippingAddress.shippingAddressNumber',
+      name: 'shipping.number',
       type: 'tel',
       label: 'Número',
       size: 'half',
@@ -201,7 +206,7 @@ export const fields = {
       },
     },
     {
-      name: 'shippingAddress.shippingAddressDistrict',
+      name: 'shipping.district',
       type: 'text',
       label: 'Bairro',
       size: 'half',
@@ -219,7 +224,7 @@ export const fields = {
       },
     },
     {
-      name: 'shippingAddress.shippingAddressCity',
+      name: 'shipping.city',
       type: 'text',
       label: 'Cidade',
       size: 'half',
@@ -237,144 +242,144 @@ export const fields = {
       },
     },
     {
-      name: 'shippingAddress.shippingAddressState',
+      name: 'shipping.state',
       type: 'text',
       label: 'Estado',
       size: 'half',
       placeholder: 'Escolha o estado',
       options: [
         {
-          name: 'shippingAddress.shippingAddressState',
+          name: 'shipping.state',
           label: 'Acre',
           value: 'AC',
         },
         {
-          name: 'shippingAddress.shippingAddressState',
+          name: 'shipping.state',
           label: 'Alagoas',
           value: 'AL',
         },
         {
-          name: 'shippingAddress.shippingAddressState',
+          name: 'shipping.state',
           label: 'Amapá',
           value: 'AP',
         },
         {
-          name: 'shippingAddress.shippingAddressState',
+          name: 'shipping.state',
           label: 'Amazonas',
           value: 'AM',
         },
         {
-          name: 'shippingAddress.shippingAddressState',
+          name: 'shipping.state',
           label: 'Bahia',
           value: 'BA',
         },
         {
-          name: 'shippingAddress.shippingAddressState',
+          name: 'shipping.state',
           label: 'Ceará',
           value: 'CE',
         },
         {
-          name: 'shippingAddress.shippingAddressState',
+          name: 'shipping.state',
           label: 'Distrito Federal',
           value: 'DF',
         },
         {
-          name: 'shippingAddress.shippingAddressState',
+          name: 'shipping.state',
           label: 'Espírito Santo',
           value: 'ES',
         },
         {
-          name: 'shippingAddress.shippingAddressState',
+          name: 'shipping.state',
           label: 'Goiás',
           value: 'GO',
         },
         {
-          name: 'shippingAddress.shippingAddressState',
+          name: 'shipping.state',
           label: 'Maranhão',
           value: 'MA',
         },
         {
-          name: 'shippingAddress.shippingAddressState',
+          name: 'shipping.state',
           label: 'Mato Grosso',
           value: 'MT',
         },
         {
-          name: 'shippingAddress.shippingAddressState',
+          name: 'shipping.state',
           label: 'Mato Grosso do Sul',
           value: 'MS',
         },
         {
-          name: 'shippingAddress.shippingAddressState',
+          name: 'shipping.state',
           label: 'Minas Gerais',
           value: 'MG',
         },
         {
-          name: 'shippingAddress.shippingAddressState',
+          name: 'shipping.state',
           label: 'Pará',
           value: 'PA',
         },
         {
-          name: 'shippingAddress.shippingAddressState',
+          name: 'shipping.state',
           label: 'Paraíba',
           value: 'PB',
         },
         {
-          name: 'shippingAddress.shippingAddressState',
+          name: 'shipping.state',
           label: 'Paraná',
           value: 'PR',
         },
         {
-          name: 'shippingAddress.shippingAddressState',
+          name: 'shipping.state',
           label: 'Pernambuco',
           value: 'PE',
         },
         {
-          name: 'shippingAddress.shippingAddressState',
+          name: 'shipping.state',
           label: 'Piauí',
           value: 'PI',
         },
         {
-          name: 'shippingAddress.shippingAddressState',
+          name: 'shipping.state',
           label: 'Rio de Janeiro',
           value: 'RJ',
         },
         {
-          name: 'shippingAddress.shippingAddressState',
+          name: 'shipping.state',
           label: 'Rio Grande do Norte',
           value: 'RN',
         },
         {
-          name: 'shippingAddress.shippingAddressState',
+          name: 'shipping.state',
           label: 'Rio Grande do Sul',
           value: 'RS',
         },
         {
-          name: 'shippingAddress.shippingAddressState',
+          name: 'shipping.state',
           label: 'Rondônia',
           value: 'RO',
         },
         {
-          name: 'shippingAddress.shippingAddressState',
+          name: 'shipping.state',
           label: 'Roraima',
           value: 'RR',
         },
         {
-          name: 'shippingAddress.shippingAddressState',
+          name: 'shipping.state',
           label: 'Santa Catarina',
           value: 'SC',
         },
         {
-          name: 'shippingAddress.shippingAddressState',
+          name: 'shipping.state',
           label: 'São Paulo',
           value: 'SP',
         },
         {
-          name: 'shippingAddress.shippingAddressState',
+          name: 'shipping.state',
           label: 'Sergipe',
           value: 'SE',
         },
         {
-          name: 'shippingAddress.shippingAddressState',
+          name: 'shipping.state',
           label: 'Tocantins',
           value: 'TO',
         },
@@ -396,7 +401,7 @@ export const fields = {
       },
     },
     {
-      name: 'shippingAddress.shippingAddressPostalCode',
+      name: 'shipping.postalCode',
       type: 'tel',
       label: 'CEP',
       size: 'half',
@@ -416,7 +421,7 @@ export const fields = {
   ],
   creditCard: [
     {
-      name: 'creditCard.holder.creditCardHolderName',
+      name: 'creditCard.holder.name',
       type: 'text',
       label: 'Nome do Titular do Cartão',
       placeholder: 'Digite o nome conforme no cartão',
@@ -480,7 +485,7 @@ export const fields = {
   ],
   creditCardHolder: [
     {
-      name: 'creditCard.holder.creditCardHolderCPF',
+      name: 'creditCard.holder.documents.document.value',
       type: 'tel',
       label: 'CPF',
       placeholder: '000.000.000-00',
@@ -524,7 +529,7 @@ export const fields = {
       },
     },
     {
-      name: 'creditCard.holder.creditCardHolderFullPhone',
+      name: 'creditCard.holder.fullPhone',
       type: 'tel',
       label: 'Telefone',
       placeholder: '(00) 00000-0000',
@@ -542,7 +547,7 @@ export const fields = {
       },
     },
     {
-      name: 'creditCard.holder.creditCardHolderBirthDate',
+      name: 'creditCard.holder.dob',
       type: 'tel',
       label: 'Data de Nascimento',
       size: 'half',

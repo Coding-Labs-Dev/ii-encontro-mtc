@@ -26,7 +26,7 @@ const schema = new Schema(
       type: String,
       hashKey: true,
       required: true,
-      default: () => ulid(),
+      default: ulid,
     },
     email: {
       type: String,

@@ -26,7 +26,7 @@ const schema = new Schema(
       type: String,
       hashKey: true,
       required: true,
-      default: () => ulid(),
+      default: ulid,
     },
     code: {
       type: String,
@@ -54,7 +54,7 @@ const schema = new Schema(
         'Cancelada',
       ],
     },
-    data: {
+    date: {
       type: Date,
       required: true,
     },

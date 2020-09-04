@@ -28,10 +28,10 @@
     "import/extensions": "off",
     "react/jsx-props-no-spreading": 0,
     "no-unused-vars": "off",
-    "@typescript-eslint/no-unused-vars": ["error"],
+    "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
     "import/no-unresolved": [0],
     "object-curly-newline": ["error", { "consistent": true }],
     "implicit-arrow-linebreak": "off",
-    "comma-dangle": ["error", "only-multiline"]
+    "comma-dangle": ["error", "only-multiline"],
   }
 }

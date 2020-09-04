@@ -3,9 +3,9 @@ import { AppProps } from 'next/app';
 import Theme from 'styles/Theme';
 import Head from 'next/head';
 import { IntlProvider } from 'react-intl';
+import { SnackbarProvider } from 'notistack';
 import 'typeface-roboto';
 import 'typeface-poppins';
-import 'react-toastify/dist/ReactToastify.min.css';
 
 function App({ Component, pageProps }: AppProps) {
   React.useEffect(() => {
@@ -36,7 +36,9 @@ function App({ Component, pageProps }: AppProps) {
       </Head>
       <IntlProvider locale="en">
         <Theme>
-          <Component {...pageProps} />
+          <SnackbarProvider maxSnack={5}>
+            <Component {...pageProps} />
+          </SnackbarProvider>
         </Theme>
       </IntlProvider>
     </>

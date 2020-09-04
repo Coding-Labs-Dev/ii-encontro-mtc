@@ -25,6 +25,7 @@
       "@styles/*": ["./styles/*"],
       "@lib/*": ["./lib"],
       "@types/*": ["./types/*"],
+      "@services/*": ["./services/*"],
     }
   },
   "exclude": ["node_modules"],

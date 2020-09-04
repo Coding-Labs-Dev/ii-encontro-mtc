@@ -1,4 +1,5 @@
-import PagSeguro from '@luismramirezr/pagseguro';
+// import PagSeguro from '@luismramirezr/pagseguro';
+import PagSeguro from './PagSeguro_';
 
 const {
   EMAIL: email,
@@ -8,18 +9,18 @@ const {
 } = process.env;
 
 class PagSeguroSingleton {
-  static instance: typeof PagSeguro;
+  static instance: PagSeguro;
   private constructor() {
     return new PagSeguro({
-      email,
-      token,
+      email: email || '',
+      token: token || '',
       sandbox: !!sandbox,
       sandboxEmail,
     });
   }
   static getInstance() {
     if (!this.instance) {
-      this.instance = new PagSeguroSingleton();
+      this.instance = new PagSeguroSingleton() as PagSeguro;
     }
 
     return this.instance;

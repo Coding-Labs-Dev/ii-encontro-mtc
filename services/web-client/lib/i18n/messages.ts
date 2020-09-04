@@ -85,7 +85,7 @@ const messages = {
         },
       },
       Payment: {
-        Title: 'Forma de Pagamento',
+        Title: 'Dados do Cartão',
         Name: {
           Label: 'Nome do Titular do Cartão',
           Placeholder: 'Digite o nome conforme no cartão',
@@ -106,6 +106,7 @@ const messages = {
           Title: 'Dados do Proprietário',
           Label: 'Mesmos dados do inscrito',
         },
+        Method: 'Forma de Pagamento',
       },
       Continue: 'Continuar',
       Modal: {

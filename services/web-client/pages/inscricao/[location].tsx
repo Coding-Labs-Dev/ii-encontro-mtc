@@ -1,12 +1,10 @@
-/* eslint-disable */
-// @ts-nocheck
-/* eslint-disable no-console */
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+import axios from 'axios';
 import t, { withPrefix } from 'lib/i18n';
 import { useRouter } from 'next/router';
-import useForm from 'react-hook-form';
-import axios from 'axios';
-import { toast } from 'react-toastify';
+import { useForm, FormProvider } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers';
+import { NextPage, GetStaticProps, GetStaticPaths } from 'next';
 import {
   Box,
   Container,
@@ -14,28 +12,41 @@ import {
   Paper,
   Typography,
   Button,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  FormControlLabel,
-  Checkbox,
-  RadioGroup,
-  Radio,
+  LinearProgress,
 } from '@material-ui/core';
 
+import PagSeguroClient, { usePagSeguroDirectPayment } from 'services/PagSeguro';
+import api from 'services/api';
 import Layout from 'components/Layout';
 import Background from 'components/Hero/Background';
-import Fields from 'components/Fields';
-import { fields } from 'components/Fields/CheckoutFields';
-import Cart from 'components/Cart';
-import { NextPage, GetStaticProps, GetStaticPaths } from 'next';
+import Field from 'components/Field';
+import useAlert from 'components/Alert';
+import formFields, { FormSchema, validationSchema } from 'lib/formFields';
+import { CardBrandData, Installment } from '@services/PagSeguro/types';
 
-import { Subscriptions } from '../types/models';
+import { Subscriptions } from 'types/models';
+import { toCurrency } from 'lib/number';
+import CheckoutModal from '@components/CheckoutModal';
 
 const c = withPrefix('Checkout');
 const fd = withPrefix('Checkout.Form.Data');
 const fp = withPrefix('Checkout.Form.Payment');
+
+const parsePhone = (fullPhone: string) => {
+  const parsed = fullPhone.replace(/\D/g, '').match(/([0-9]{2})([0-9]+)/);
+  if (!parsed) return { areaCode: null, phoneNumber: null };
+  return { areaCode: parsed[1], phoneNumber: parsed[2] };
+};
+
+const parseInstallments = (
+  installments: Array<Installment>
+): Array<{ label: string; value: string }> =>
+  installments.map((installment) => ({
+    value: String(installment.installmentAmount),
+    label: `${installment.quantity} x ${toCurrency(
+      installment.installmentAmount
+    )} (${toCurrency(installment.totalAmount)})`,
+  }));
 
 interface Props {
   subscriptions: Subscriptions;
@@ -43,617 +54,475 @@ interface Props {
 
 const Inscricao: NextPage<Props> = ({ subscriptions }) => {
   const router = useRouter();
+  const { createAlert } = useAlert();
 
-  const singlePayment = subscriptions.values.reduce((acc, item) => {
+  const singlePaymentValue = subscriptions.values.reduce((acc, item) => {
     if (item.singlePayment) acc = item.value;
     return acc;
   }, 0);
 
-  const installmentValue = subscriptions.values.reduce((acc, item) => {
+  const installmentPaymenValue = subscriptions.values.reduce((acc, item) => {
     if (!item.singlePayment) acc = item.value;
     return acc;
   }, 0);
 
-  const maxInstallments =
-    new Date() > new Date(subscriptions.installments.utc)
-      ? subscriptions.installments.after
-      : subscriptions.installments.before;
-
-  const location = React.useMemo(() => router.query.location, [router]);
-
-  const [selectedLocation, setSelectedLocation] = useState(location);
-
-  useEffect(() => setSelectedLocation((p) => p || location), [location]);
-
-  const [cart] = useState(
-    new Cart([
-      {
-        id: 'II Encontro MTC',
-        description: 'Taxa de inscrição do II Encontro MTC',
-        singlePayment,
-        installmentValue,
-        quantity: 1,
-      },
-    ])
-  );
-
-  useEffect(() => {
-    const script = document.createElement('script');
-    script.src = process.env.NEXT_PUBLIC_PAGSEGURO!;
-    script.id = 'pagSeguro';
-    document.body.appendChild(script);
-    if (cart) {
-      cart.setMaxInstallmentNoInterest(10);
-    }
-  }, []);
-
-  const {
-    register,
-    unregister,
-    handleSubmit,
-    errors,
-    setValue,
-    setError,
-    watch,
-  } = useForm({
-    defaultValues: {
-      location,
-      creditCard: { holder: { sameAsBuyer: true } },
-    },
+  const isReady = usePagSeguroDirectPayment();
+  const methods = useForm<FormSchema>({
+    resolver: yupResolver(validationSchema),
   });
 
-  useEffect(() => {
-    setValue('location', location);
-  }, [location]);
+  const [pagSeguroClient, setPagSeguroClient] = React.useState<
+    PagSeguroClient | undefined
+  >();
+  const [creditCardBrand, setCreditCardBrand] = React.useState<
+    CardBrandData | undefined
+  >();
+  const [openConfirmationModal, setOpenConfirmationModal] = React.useState(
+    false
+  );
+  const [fetching, setFetching] = React.useState(false);
+  const [sending, setSending] = React.useState(false);
 
-  const [cardBrand, setCardBrand] = useState<
-    boolean | Array<{ [key: string]: any }>
-  >(false);
-  const [installments, setInstallments] = useState([]);
-  const [formData, setFormData] = useState<{ [key: string]: any }>({});
-  const [showModal, setShowModal] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [sending, setSending] = useState(false);
-  const [transactionStatus, setTransactionStatus] = useState(null);
-  const [paymentLink, setPaymentLink] = useState(null);
+  const { handleSubmit, setValue, watch, getValues } = methods;
 
-  useEffect(() => {
-    if (transactionStatus) router.push('/inscricao/pagamentoefetuado');
-  }, [transactionStatus]);
+  const location = React.useMemo(() => router.query.location as string, [
+    router,
+  ]);
+
+  const [availableInstallments, setAvailableInstallments] = React.useState<
+    Array<Installment> | undefined
+  >();
+
+  const initPaymentSession = React.useCallback(async () => {
+    if (typeof window !== 'undefined' && pagSeguroClient) {
+      try {
+        const response = await api.get('/payment');
+        if (!response.data || !response.data.status || !response.data.token) {
+          throw new Error('Erro ao iniciar a sessão com PagSeguro');
+        }
+        await pagSeguroClient.createSession(response.data.token);
+        const paymentMethodsResponse = await pagSeguroClient.getPaymentMethods();
+        if (
+          paymentMethodsResponse.error ||
+          !paymentMethodsResponse.paymentMethods?.CREDIT_CARD
+        ) {
+          throw new Error(
+            'Error ao carregar os meios de pagamento com PagSeguro'
+          );
+        }
+      } catch (error) {
+        createAlert({
+          content: error.message,
+          type: 'error',
+        });
+      }
+    }
+  }, [pagSeguroClient]);
+
+  const getCreditCardBrand = React.useCallback(
+    async (cardBin: string) => {
+      if (typeof window !== 'undefined' && pagSeguroClient) {
+        try {
+          const data = await pagSeguroClient.getCreditCardBrand(cardBin);
+          if (data.error) throw new Error('Erro ao identificar o cartão');
+          setCreditCardBrand(data.brand);
+        } catch (error) {
+          createAlert({
+            content: error.message || 'Erro ao identificar o cartão',
+            type: 'error',
+          });
+        }
+      }
+    },
+    [pagSeguroClient]
+  );
+
+  const getInstallments = React.useCallback(
+    async (params: { amount: number; brand: string }) => {
+      if (typeof window !== 'undefined' && pagSeguroClient) {
+        try {
+          setFetching(true);
+          const data = await pagSeguroClient.getInstallments(params);
+          if (data.error) throw new Error('Erro ao recuperar parcelamento');
+          const installments = data.installments[params.brand];
+          installments.shift();
+          installments.splice(5);
+          setAvailableInstallments(installments);
+          setFetching(false);
+        } catch (error) {
+          setFetching(false);
+          createAlert({
+            content: error.message,
+            type: 'error',
+          });
+        }
+      }
+    },
+    [pagSeguroClient]
+  );
+
+  const billingSameAsShipping = watch('other.billingSameAsShipping') as boolean;
+  const senderFullPhone = watch('internal.sender.fullPhone') as
+    | string
+    | undefined;
+  const holderFullPhone = watch('internal.creditCard.holder.fullPhone') as
+    | string
+    | undefined;
+  const shippingState = watch('internal.shipping.state') as
+    | { value: string; label: string }
+    | undefined;
+  const shippingPostalCode = watch('internal.shipping.postalCode') as
+    | string
+    | undefined;
+  const billingAddressState = watch('internal.billingAddress.state') as
+    | { value: string; label: string }
+    | undefined;
+  const billingAddressPostalCode = watch(
+    'internal.billingAddress.postalCode'
+  ) as string | undefined;
+  const creditCardNumber = watch('internal.creditCard.number') as
+    | string
+    | undefined;
+  const creditCardExpiration = watch('internal.creditCard.expirationDate') as
+    | string
+    | undefined;
+  const paymentMethod = watch('internal.paymentMethod') as string | undefined;
+  const selectedInstallmentValue = watch('internal.creditCard.installments') as
+    | string
+    | undefined;
+  const senderCPF = watch('internal.sender.documents.document.value') as
+    | string
+    | undefined;
+  const holderCPF = watch(
+    'internal.creditCard.holder.documents.document.value'
+  ) as string | undefined;
+
+  React.useEffect(() => {
+    if (senderFullPhone) {
+      const { areaCode, phoneNumber } = parsePhone(senderFullPhone);
+      if (areaCode) setValue('sender.phone.areaCode', areaCode);
+      if (phoneNumber) setValue('sender.phone.number', phoneNumber);
+    }
+  }, [senderFullPhone]);
+
+  React.useEffect(() => {
+    if (holderFullPhone) {
+      const { areaCode, phoneNumber } = parsePhone(holderFullPhone);
+      if (areaCode) setValue('creditCard.holder.phone.areaCode', areaCode);
+      if (phoneNumber) setValue('creditCard.holder.phone.number', phoneNumber);
+    }
+  }, [holderFullPhone]);
+
+  React.useEffect(() => {
+    if (shippingState) {
+      const { value } = shippingState;
+      setValue('shipping.state', value);
+    }
+  }, [shippingState]);
+
+  React.useEffect(() => {
+    if (shippingPostalCode)
+      setValue('shipping.postalCode', shippingPostalCode.replace(/\D/g, ''));
+  }, [shippingPostalCode]);
+
+  React.useEffect(() => {
+    if (billingAddressPostalCode)
+      setValue(
+        'billingAddress.postalCode',
+        billingAddressPostalCode.replace(/\D/g, '')
+      );
+  }, [billingAddressPostalCode]);
+
+  React.useEffect(() => {
+    if (billingAddressState) {
+      const { value } = billingAddressState;
+      setValue('billingAddress.state', value);
+    }
+  }, [billingAddressState]);
+
+  React.useEffect(() => {
+    if (paymentMethod === 'installments' && creditCardBrand) {
+      setValue('items.item.amount', installmentPaymenValue);
+      getInstallments({
+        amount: installmentPaymenValue,
+        brand: creditCardBrand.name,
+      });
+    } else {
+      setValue('items.item.amount', singlePaymentValue);
+    }
+  }, [paymentMethod, creditCardBrand]);
+
+  React.useEffect(() => {
+    if (isReady) setPagSeguroClient(new PagSeguroClient());
+  }, [isReady]);
+
+  React.useEffect(() => {
+    const trimed = creditCardNumber?.replace(/\D/g, '');
+    if (pagSeguroClient && trimed && trimed.length >= 6) {
+      const cardBin = trimed.substr(0, 6);
+      getCreditCardBrand(cardBin);
+    }
+  }, [creditCardNumber, pagSeguroClient]);
+
+  React.useEffect(() => {
+    const match = creditCardExpiration?.match(/(\d{2})\/(\d+)/);
+    if (match) {
+      setValue('internal.creditCard.expirationMonth', match[1]);
+      setValue('internal.creditCard.expirationYear', `20${match[2]}`);
+    }
+  }, [creditCardExpiration]);
+
+  React.useEffect(() => {
+    if (paymentMethod === 'installments') {
+      const installment = availableInstallments?.find(
+        ({ installmentAmount }) =>
+          String(installmentAmount) === selectedInstallmentValue
+      );
+      if (installment) {
+        setValue('creditCard.installment.quantity', installment.quantity);
+        setValue('creditCard.installment.value', installment.installmentAmount);
+        setValue('other.paymentTotal', installment.totalAmount);
+      }
+    } else {
+      setValue('creditCard.installment.quantity', 1);
+      setValue('creditCard.installment.value', singlePaymentValue);
+      setValue('other.paymentTotal', singlePaymentValue);
+    }
+  }, [paymentMethod, selectedInstallmentValue, availableInstallments]);
+
+  React.useEffect(() => {
+    if (availableInstallments) {
+      const installment = availableInstallments[0];
+      setValue(
+        'internal.creditCard.installments',
+        String(installment.installmentAmount)
+      );
+      setValue('creditCard.installment.quantity', installment.quantity);
+      setValue('creditCard.installment.value', installment.installmentAmount);
+      setValue('other.paymentTotal', installment.totalAmount);
+    }
+  }, [availableInstallments]);
+
+  React.useEffect(() => {
+    if (senderCPF)
+      setValue('sender.documents.document.value', senderCPF.replace(/\D/g, ''));
+  }, [senderCPF]);
+
+  React.useEffect(() => {
+    if (holderCPF)
+      setValue(
+        'creditCard.holder.documents.document.value',
+        holderCPF.replace(/\D/g, '')
+      );
+  }, [holderCPF]);
+
+  React.useEffect(() => {
+    initPaymentSession();
+    setValue('items.item.amount', singlePaymentValue);
+  }, [initPaymentSession]);
 
   const onSubmit = (data: any) => {
-    setFormData({ ...data, location: selectedLocation });
-    console.log(data);
-    setShowModal(true);
+    setOpenConfirmationModal(true);
   };
 
-  async function submit() {
+  const makePayment = async () => {
     setSending(true);
     try {
-      const senderHash = await new Promise((resolve, reject) => {
-        window.PagSeguroDirectPayment.onSenderHashReady((response: any) => {
-          if (response.status === 'error') {
-            console.error(response);
-            const error = 'Erro ao recuperar hash do PagSeguro';
-            toast.error(error);
-            reject(error);
-          }
-          resolve(response.senderHash);
-        });
+      // Get CreditCard Token
+      const expirationMonth = getValues(
+        'internal.creditCard.expirationMonth'
+      ) as string;
+      const expirationYear = getValues(
+        'internal.creditCard.expirationYear'
+      ) as string;
+      const cvv = getValues('internal.creditCard.securityToken') as string;
+      const cardToken = await pagSeguroClient!.getCreditCardToken({
+        brand: creditCardBrand!.name,
+        cardNumber: creditCardNumber!.replace(/\D/g, ''),
+        cvv: cvv.replace(/\D/g, ''),
+        expirationMonth: expirationMonth.replace(/\D/g, ''),
+        expirationYear: expirationYear.replace(/\D/g, ''),
       });
+      if (cardToken.error)
+        throw new Error('Erro ao processar o cartão de crédito');
+      const { token } = cardToken.card;
+      setValue('creditCard.token', token);
 
-      let data = {
-        cart: cart.getData(),
-        sender: {
-          ...formData.sender,
-          senderHash,
-          senderAreaCode: formData.sender.senderFullPhone
-            .replace(/\D/g, '')
-            .substr(0, 2),
-          senderPhone: formData.sender.senderFullPhone
-            .replace(/\D/g, '')
-            .substr(2),
-          senderCPF: formData.sender.senderCPF.replace(/\D/g, ''),
-        },
-        shipping: {
-          ...formData.shippingAddress,
-          shippingAddressRequired: true,
-          shippingAddressPostalCode: formData.shippingAddress.shippingAddressPostalCode.replace(
-            /\D/g,
-            ''
-          ),
-        },
-        paymentMethod: 'creditCard',
-      };
-      const token = await new Promise((resolve, reject) => {
-        window.PagSeguroDirectPayment.createCardToken({
-          cardNumber: formData.creditCard.number.replace(/\D/g, ''),
-          brand: cardBrand.name,
-          cvv: formData.creditCard.securityToken.replace(/\D/g, ''),
-          expirationMonth: formData.creditCard.expirationDate.substr(0, 2),
-          expirationYear:
-            Number(formData.creditCard.expirationDate.substr(3)) + 2000,
-          success: (response: any) => resolve(response.card.token),
-          error: (err: any) => {
-            console.error(err.message);
-            const error = 'Erro ao recuperar hash do PagSeguro';
-            return reject(error);
-          },
-        });
+      // Get SenderHash
+      const senderHash = await pagSeguroClient!.getSenderHash();
+      setValue('sender.hash', senderHash);
+
+      const formData = getValues();
+      const response = await api.post('/payment', {
+        ...formData,
+        internal: undefined,
       });
-      data = {
-        ...data,
-        creditCard: { token },
-        creditCardHolder: {
-          ...formData.creditCard.holder,
-        },
-      };
-      if (!formData.creditCard.holder.sameAsBuyer) {
-        data = {
-          ...data,
-          creditCardHolder: {
-            ...data.creditCardHolder,
-            creditCardHolderAreaCode: formData.creditCard.holder.creditCardHolderFullPhone
-              .replace(/\D/g, '')
-              .substr(0, 2),
-            creditCardHolderPhone: formData.creditCard.holder.creditCardHolderFullPhone
-              .replace(/\D/g, '')
-              .substr(2),
-            creditCardHolderCPF: formData.creditCard.holder.creditCardHolderCPF.replace(
-              /\D/g,
-              ''
-            ),
-          },
-          billing: {
-            ...formData.billingAddress,
-            billingAddressPostalCode: formData.billingAddress.billingAddressPostalCode.replace(
-              /\D/g,
-              ''
-            ),
-          },
-        };
-      } else {
-        data = {
-          ...data,
-          creditCardHolder: {
-            ...data.creditCardHolder,
-            creditCardHolderBirthDate: formData.sender.senderBirthDate,
-            creditCardHolderAreaCode: formData.sender.senderFullPhone
-              .replace(/\D/g, '')
-              .substr(0, 2),
-            creditCardHolderPhone: formData.sender.senderFullPhone
-              .replace(/\D/g, '')
-              .substr(2),
-            creditCardHolderCPF: formData.sender.senderCPF.replace(/\D/g, ''),
-          },
-        };
-      }
-
-      await axios
-        .post(`${process.env.NEXT_PUBLIC_API}/payment`, data)
-        .then(({ data: res }) => {
-          const { status } = res;
-          if (!status) {
-            const { error, message, errors: errs, messages } = res;
-            if (error) {
-              toast.error(message);
-              return console.error(message);
-            }
-            messages.forEach((msg) => toast.error(msg));
-            return console.error(errs);
-          }
-          if (res.transactionStatus <= 3) {
-            if (res.paymentLink) {
-              setPaymentLink(res.paymentLink);
-            }
-            return setTransactionStatus(res.transactionStatus);
-          }
-          if (res.transactionStatus === 7) {
-            setSending(false);
-            setShowModal(false);
-            setFormData({});
-            return toast.error('Transação negada pela operadora de crédito');
-          }
-          setSending(false);
-          setShowModal(false);
-          setFormData({});
-          return toast.error(
+      if (response.status === 200) {
+        const { transactionStatus } = response.data;
+        if (transactionStatus === 7) {
+          throw new Error('Transação negada pela operadora de crédito');
+        }
+        if (transactionStatus <= 3) {
+          router.push('/inscricao/pagamentoefetuado');
+        } else {
+          throw new Error(
             `Erro ao processar a transação. Código: ${transactionStatus}`
           );
-        })
-        .catch((err) => {
-          console.error(err);
-          setSending(false);
-          setShowModal(false);
-          toast.error('Erro na comunicação com PagSeguro');
-        });
+        }
+      }
     } catch (error) {
       setSending(false);
-      setShowModal(false);
-      console.error(error);
-      toast.error('Erro na comunicação com PagSeguro ao realizar a transação');
-    }
-  }
-
-  useEffect(() => {
-    window.scrollTo({ top: 0 });
-  }, []);
-
-  useEffect(() => {
-    if (watch('creditCard.holder.sameAsBuyer')) {
-      fields.creditCardHolder.forEach(({ name }) => {
-        if (
-          name !== 'creditCard.holder.sameAsBuyer' &&
-          name !== 'creditCard.holder.name'
-        ) {
-          unregister(name);
-        }
-      });
-      fields.billing.forEach(({ name }) => {
-        unregister(name);
+      createAlert({
+        type: 'error',
+        content: error.message || 'Erro ao processar o pagamento',
       });
     }
-  }, [watch('creditCard.holder.sameAsBuyer')]);
-
-  async function handleCreditCard(value) {
-    const cc = String(value).replace(/\D/g, '');
-    if (cc.length >= 6) {
-      try {
-        const result = await new Promise((resolve, reject) => {
-          window.PagSeguroDirectPayment.getBrand({
-            cardBin: cc.substr(0, 6),
-            success: (response) => {
-              setCardBrand(response.brand);
-              resolve(response.brand);
-            },
-            error: (err) => {
-              setCardBrand(false);
-              setError(
-                'creditCard.number',
-                'pattern',
-                'Cartão de Crédito inválido'
-              );
-              reject(err);
-            },
-          });
-        });
-        const { name: brand } = result;
-        setLoading(true);
-        return await new Promise((resolve, reject) => {
-          window.PagSeguroDirectPayment.getInstallments({
-            amount: installmentValue,
-            maxInstallments,
-            brand,
-            success(response) {
-              setLoading(false);
-              const values = response.installments[brand]
-                .slice(0, maxInstallments)
-                .map(
-                  (
-                    { installmentAmount, interestFree, quantity, totalAmount },
-                    i
-                  ) => ({
-                    name: 'creditCard.installments',
-                    value: JSON.stringify({
-                      installmentAmount: !i ? singlePayment : installmentAmount,
-                      interestFree,
-                      quantity,
-                      totalAmount: !i ? singlePayment : totalAmount,
-                    }),
-                    label: `${quantity} x R$${
-                      !i
-                        ? singlePayment
-                        : installmentAmount.toFixed(2).replace('.', ',')
-                    } (Total: R$${(!i ? singlePayment : totalAmount)
-                      .toFixed(2)
-                      .replace('.', ',')})`,
-                  })
-                );
-              setInstallments(values);
-              resolve(response.installments[brand]);
-            },
-            error(response) {
-              reject(response);
-            },
-          });
-        });
-      } catch (err) {
-        console.error('error', err);
-      }
-    }
-    return false;
-  }
-
-  useEffect(() => {
-    handleCreditCard(watch('creditCard.number'));
-  }, [watch('creditCard.number')]);
-
-  useEffect(() => {
-    axios
-      .get(`${process.env.NEXT_PUBLIC_API}/payment`)
-      .then(({ data }) => {
-        if (data.status) {
-          window.PagSeguroDirectPayment.setSessionId(data.id);
-        }
-      })
-      .catch((err) => {
-        console.error(err);
-        toast.error('Erro na comunicação com PagSeguro');
-      });
-  }, []);
-
-  useEffect(() => {
-    const creditCardInstallments = watch('creditCard.installments');
-    if (creditCardInstallments) {
-      cart.setCreditCardPayment(JSON.parse(creditCardInstallments));
-    }
-  }, [watch('creditCard.installments')]);
-
-  function handleChange(e) {
-    if (e.target) {
-      setValue(
-        e.target.name,
-        e.target.type === 'checkbox' ? e.target.checked : e.target.value,
-        e.target.classList.contains('error')
-      );
-    } else {
-      setValue(e.name, e.value, true);
-    }
-    setValue(e.name, e.value, true);
-  }
+  };
 
   return (
     <Layout title={t('Title')} description={t('Subtitle')}>
-      <Box minHeight="100vh" width="100%" position="relative">
-        <Background />
-        <Box
-          height="100%"
-          width="100%"
-          display="flex"
-          flexDirection="column"
-          justifyContent="center"
-          alignContent="center"
-          py={10}
-        >
-          <Container>
-            <Box>
-              <form onSubmit={handleSubmit(onSubmit)}>
-                <Paper>
-                  <Box
-                    py={3}
-                    px={3}
-                    display="flex"
-                    flexDirection="column"
-                    justifyContent="center"
-                    alignContent="center"
-                  >
-                    <Typography variant="h3">{c('Title')}</Typography>
-                    <Grid container spacing={5}>
-                      <Grid item xs={12} md={6}>
-                        <Box mt={3}>
-                          <Typography variant="h6">Local</Typography>
-                        </Box>
-                        <Box px={2}>
-                          <RadioGroup
-                            name="location"
-                            value={selectedLocation}
-                            onChange={(e) =>
-                              setSelectedLocation(e.currentTarget.value)
-                            }
-                          >
-                            <FormControlLabel
-                              value="campinas"
-                              control={<Radio color="primary" />}
-                              label="Campinas"
-                            />
-                            <FormControlLabel
-                              value="saopaulo"
-                              control={<Radio color="primary" />}
-                              label="São Paulo"
-                            />
-                            <FormControlLabel
-                              value="brasilia"
-                              control={<Radio color="primary" />}
-                              label="Brasília"
-                            />
-                          </RadioGroup>
-                        </Box>
-                        <Box mt={3}>
-                          <Typography variant="h6">{fd('Title')}</Typography>
-                        </Box>
-                        <Fields
-                          fields={fields.sender}
-                          register={register}
-                          errors={errors}
-                          handleChange={handleChange}
-                        />
-                        <Fields
-                          fields={fields.shipping}
-                          register={register}
-                          errors={errors}
-                          handleChange={handleChange}
-                        />
-                      </Grid>
-                      <Grid item xs={12} md={6}>
-                        <Box mt={3}>
-                          <Typography variant="h6">{fp('Title')}</Typography>
-                        </Box>
-                        <Fields
-                          fields={fields.creditCard}
-                          register={register}
-                          errors={errors}
-                          handleChange={handleChange}
-                        />
-                        {installments.length ? (
-                          <Fields
-                            fields={[
-                              {
-                                name: 'creditCard.installments',
-                                type: 'text',
-                                label: 'Parcelamento',
-                                placeholder: 'Escolha a quantidade de parcelas',
-                                options: installments,
-                                props: {
-                                  required: 'Este campo é obrigatório',
-                                },
-                              },
-                            ]}
-                            register={register}
-                            errors={errors}
-                            handleChange={handleChange}
-                          />
-                        ) : (
-                          loading && <p>Carregando</p>
-                        )}
-                        <Box mt={3}>
-                          <Typography variant="h6">
-                            {fp('Holder.Title')}
-                          </Typography>
-                        </Box>
-                        <span className="checkmark" />
-                        <FormControlLabel
-                          control={
-                            <Checkbox
-                              name="creditCard.holder.sameAsBuyer"
-                              onChange={handleChange}
-                              checked={watch('creditCard.holder.sameAsBuyer')}
-                              color="primary"
-                              ref={register({
-                                name: 'creditCard.holder.sameAsBuyer',
-                              })}
-                            />
-                          }
-                          label={fp('Holder.Label')}
-                        />
-                        {!watch('creditCard.holder.sameAsBuyer') && (
-                          <>
-                            <Fields
-                              fields={fields.creditCardHolder}
-                              register={register}
-                              errors={errors}
-                              handleChange={handleChange}
-                            />
-                            <Fields
-                              fields={fields.billing}
-                              register={register}
-                              errors={errors}
-                              handleChange={handleChange}
-                            />
-                          </>
-                        )}
-                      </Grid>
-                      <Grid item xs={12} container justify="flex-end">
-                        <Button
-                          color="primary"
-                          variant="contained"
-                          type="submit"
-                        >
-                          {c('Form.Continue')}
-                        </Button>
-                      </Grid>
-                    </Grid>
-                  </Box>
-                </Paper>
-              </form>
-            </Box>
-          </Container>
-        </Box>
-        <Dialog
-          disableBackdropClick
-          disableEscapeKeyDown
-          open={showModal}
-          maxWidth="xs"
-          fullWidth
-        >
-          <DialogTitle>{c('Form.Modal.Title')}</DialogTitle>
-          <DialogContent>
-            {showModal && (
+      <FormProvider {...methods}>
+        <Box minHeight="100vh" width="100%" position="relative">
+          <Background />
+          <Box
+            height="100%"
+            width="100%"
+            display="flex"
+            flexDirection="column"
+            justifyContent="center"
+            alignContent="center"
+            py={10}
+          >
+            <Container>
               <Box>
-                <Grid container spacing={2}>
-                  <Grid item container xs={12}>
-                    <Grid item xs={12} md={3}>
-                      Nome
-                    </Grid>
-                    <Grid item xs={12} md={9}>
-                      {formData.sender.senderName}
-                    </Grid>
-                  </Grid>
-                  <Grid item container xs={12}>
-                    <Grid item xs={12} md={3}>
-                      E-mail
-                    </Grid>
-                    <Grid item xs={12} md={9}>
-                      {formData.sender.senderEmail}
-                    </Grid>
-                  </Grid>
-                  <Grid item container xs={12}>
-                    <Grid item xs={12} md={3}>
-                      Local
-                    </Grid>
-                    <Grid item xs={12} md={9}>
-                      {formData.location}
-                    </Grid>
-                  </Grid>
-                  <Grid item container xs={12}>
-                    <Grid item xs={12} md={3}>
-                      Cartão
-                    </Grid>
-                    <Grid item xs={12} md={9}>
-                      {formData.creditCard.number
-                        .substr(0, 15)
-                        .replace(/\d/g, '*')}
-                      {formData.creditCard.number.substr(15)}
-                    </Grid>
-                  </Grid>
-                  <Grid item container xs={12}>
-                    <Grid item xs={12} md={3}>
-                      Forma de Pagamento
-                    </Grid>
-                    <Grid item xs={12} md={9}>
-                      {JSON.parse(formData.creditCard.installments).quantity} x
-                      R${' '}
-                      {JSON.parse(formData.creditCard.installments)
-                        .installmentAmount.toFixed(2)
-                        .replace('.', ',')}{' '}
-                      {JSON.parse(formData.creditCard.installments)
-                        .interestFree && '(sem juros)'}
-                    </Grid>
-                  </Grid>
-                  <Grid item container xs={12}>
-                    <Grid item xs={12} md={3}>
-                      Total
-                    </Grid>
-                    <Grid item xs={12} md={9}>
-                      R$ {cart.getTotal().toFixed(2).replace('.', ',')}
-                    </Grid>
-                  </Grid>
-                </Grid>
+                <form onSubmit={handleSubmit(onSubmit)}>
+                  {formFields.hidden.map((field) => (
+                    <Field key={field.name} {...field} />
+                  ))}
+                  <Paper>
+                    <Box
+                      py={3}
+                      px={3}
+                      display="flex"
+                      flexDirection="column"
+                      justifyContent="center"
+                      alignContent="center"
+                    >
+                      <Typography variant="h3">{c('Title')}</Typography>
+                      <Grid container spacing={5}>
+                        <Grid item xs={12} md={6}>
+                          <Box mt={3}>
+                            <Typography variant="h6">Local</Typography>
+                          </Box>
+                          <Box px={2}>
+                            {location &&
+                              formFields.location.map((field) => (
+                                <Field
+                                  key={field.name}
+                                  {...field}
+                                  defaultValue={location}
+                                />
+                              ))}
+                          </Box>
+                          <Box mt={3}>
+                            <Typography variant="h6">{fd('Title')}</Typography>
+                          </Box>
+                          {formFields.sender.map((field) => (
+                            <Field key={field.name} {...field} />
+                          ))}
+                          {formFields.shipping.map((field) => (
+                            <Field key={field.name} {...field} />
+                          ))}
+                        </Grid>
+                        <Grid item xs={12} md={6}>
+                          <Box mt={3}>
+                            <Typography variant="h6">{fp('Title')}</Typography>
+                          </Box>
+                          {formFields.creditCard.map((field) => (
+                            <Field key={field.name} {...field} />
+                          ))}
+                          <Box mt={3}>
+                            <Typography variant="h6">{fp('Method')}</Typography>
+                          </Box>
+                          {formFields.paymentMethod.map((field) =>
+                            field.type === 'radio' ? (
+                              <Field
+                                {...field}
+                                key={field.name}
+                                options={field.options.map((option) => ({
+                                  ...option,
+                                  label: `${option.label} (${
+                                    option.value === 'single'
+                                      ? toCurrency(singlePaymentValue)
+                                      : toCurrency(installmentPaymenValue)
+                                  })`,
+                                }))}
+                                defaultValue="single"
+                              />
+                            ) : null
+                          )}
+                          {paymentMethod === 'installments' &&
+                            !!availableInstallments?.length &&
+                            !fetching && (
+                              <Field
+                                type="select"
+                                name="internal.creditCard.installments"
+                                options={parseInstallments(
+                                  availableInstallments
+                                )}
+                                label="Parcelas"
+                              />
+                            )}
+                          {paymentMethod === 'installments' && fetching && (
+                            <LinearProgress />
+                          )}
+                          <Box mt={3}>
+                            <Typography variant="h6">
+                              {fp('Holder.Title')}
+                            </Typography>
+                          </Box>
+                          <span className="checkmark" />
+                          {formFields.billingSameAsShipping.map((field) => (
+                            <Field key={field.name} {...field} />
+                          ))}
+                          {!billingSameAsShipping && (
+                            <>
+                              {formFields.creditCardHolder.map((field) => (
+                                <Field key={field.name} {...field} />
+                              ))}
+                              {formFields.billing.map((field) => (
+                                <Field key={field.name} {...field} />
+                              ))}
+                            </>
+                          )}
+                        </Grid>
+                        <Grid item xs={12} container justify="flex-end">
+                          <Button
+                            disabled={fetching}
+                            color="primary"
+                            variant="contained"
+                            type="submit"
+                          >
+                            {c('Form.Continue')}
+                          </Button>
+                        </Grid>
+                      </Grid>
+                    </Box>
+                  </Paper>
+                </form>
               </Box>
-            )}
-          </DialogContent>
-          <DialogActions>
-            <Button
-              disabled={sending}
-              size="small"
-              onClick={() => {
-                setShowModal(false);
-                setFormData(null);
-              }}
-            >
-              {c('Form.Modal.Cancel')}
-            </Button>
-            <Button
-              disabled={sending}
-              color="primary"
-              variant="contained"
-              size="small"
-              onClick={submit}
-            >
-              {c('Form.Modal.Submit')}
-            </Button>
-          </DialogActions>
-        </Dialog>
-      </Box>
+            </Container>
+          </Box>
+        </Box>
+        <CheckoutModal
+          showModal={openConfirmationModal}
+          onCancel={() => setOpenConfirmationModal(false)}
+          onConfirm={makePayment}
+          installments={availableInstallments || []}
+          singlePaymentValue={singlePaymentValue}
+          isFetching={sending}
+        />
+      </FormProvider>
     </Layout>
   );
 };

@@ -1,22 +1,22 @@
 import { Request, Response } from 'express';
 import { Document } from 'dynamoose/dist/Document';
+import { ulid } from 'ulid';
 
 import Payment from 'services/pagseguro';
 import Transaction from 'models/Transaction';
 import Client from 'models/Client';
 
 class NotificationController {
-  async store(req: Request, res: Response): Promise<Response> {
+  async store(req: Request, res: Response) {
     const { notificationCode } = req.body;
 
     try {
-      const response = await Payment.getTarnsactionFromNotification(
+      const response = await Payment.getTransactionFromNotification(
         notificationCode
       );
-      if (response.status) {
+      if (response.transaction) {
         const {
           code,
-          reference,
           status: transactionStatus,
           paymentLink,
           date,
@@ -29,19 +29,18 @@ class NotificationController {
           installmentAmount,
           sender,
           shipping,
-        } = response.response.transaction;
-
-        if (reference !== '51-Vamos-a-China') {
-          return res.status(422).send('UNKNOWN REFERENCE');
-        }
+        } = response.transaction;
 
         const query = await Client.query({
-          email: response.response.transaction.sender.email,
+          email: response.transaction.sender.email,
         }).exec();
+
+        const userId = ulid();
 
         const document =
           !query.count || !query.length
             ? await Client.create({
+                id: userId,
                 name: sender.name,
                 email: sender.email,
                 phone: `(${sender.phone.areaCode}) ${String(
@@ -72,7 +71,7 @@ class NotificationController {
           await Transaction.create({
             code,
             client: client.id,
-            reference: '51-Vamos-a-China',
+            reference: 'IIEncontroMTC',
             status: [
               'Aguardando',
               'Em análise',
@@ -82,7 +81,7 @@ class NotificationController {
               'Devolvida',
               'Cancelada',
             ][transactionStatus - 1],
-            data: new Date(date),
+            date: new Date(date),
             paymentMethod: paymentMethod === 1 ? 'creditCard' : 'bankTicket',
             paymentLink,
             grossAmount,
@@ -110,7 +109,7 @@ class NotificationController {
           // Type Error on dynamoose
           const transactionJSON = (transaction.pop() as Document).toJSON();
 
-          transactionJSON.status = [
+          const status = [
             'Aguardando',
             'Em análise',
             'Paga',
@@ -123,9 +122,12 @@ class NotificationController {
             status: transactionJSON.status,
             date: new Date(lastEventDate),
           });
-          const updated = new Transaction({ ...transactionJSON });
 
-          await updated.save();
+          await Transaction.update({
+            id: transactionJSON.id,
+            status,
+            history: transactionJSON.history,
+          });
         }
 
         return res.status(200).send('OK');

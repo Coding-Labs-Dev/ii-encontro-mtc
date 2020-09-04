@@ -5,11 +5,11 @@ class SessionController {
   async store(_req: Request, res: Response) {
     try {
       const response = await Payment.getSession();
-      if (response.status) {
-        const { id } = response.response.session;
-        return res.json({ status: true, id });
+      if (response.session) {
+        const { id } = response.session;
+        return res.json({ status: true, token: id });
       }
-      throw new Error(response);
+      throw new Error(`Cant create payment session: ${response}`);
     } catch (error) {
       return res.status(500).json({ status: false, error });
     }
