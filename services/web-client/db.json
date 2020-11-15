@@ -121,16 +121,6 @@
           "id": "campinas_06_03",
           "location": "Campinas",
           "date": "06/03"
-        },
-        {
-          "id": "são_paulo_13_03",
-          "location": "São Paulo",
-          "date": "13/03"
-        },
-        {
-          "id": "brasília_20_03",
-          "location": "Brasília",
-          "date": "20/03"
         }
       ],
       [
@@ -138,16 +128,6 @@
           "id": "campinas_07_03",
           "location": "Campinas",
           "date": "07/03"
-        },
-        {
-          "id": "são_paulo_14_03",
-          "location": "São Paulo",
-          "date": "14/03"
-        },
-        {
-          "id": "brasília_21_03",
-          "location": "Brasília",
-          "date": "21/03"
         }
       ]
     ],
@@ -196,76 +176,22 @@
           "id": "sat_15h00",
           "startTime": "15h00",
           "endTime": "16h00",
-          "description": [
-            {
-              "id": "campinas_sat_15h00",
-              "location": "Campinas",
-              "description": "O aprendizado da Fitoteria Chinesa na China",
-              "speaker": "Dra. Karine Calligaris"
-            },
-            {
-              "id": "são_paulo_sat_15h00",
-              "location": "São Paulo",
-              "description": "Como eu uso Fórmulas Chinesas",
-              "speaker": "Dr. Wu Tou Kwang"
-            },
-            {
-              "id": "brasília_sat_15h00",
-              "location": "Brasília",
-              "description": "Diagnóstico pelo Pulso das Fórmulas Tradicionais Chinesas",
-              "speaker": "Dr. Henrique Afonso"
-            }
-          ]
+          "description": "O aprendizado da Fitoteria Chinesa na China",
+          "speaker": "Dra. Karine Calligaris"
         },
         {
           "id": "sat_16h00",
           "startTime": "16h00",
           "endTime": "17h00",
-          "description": [
-            {
-              "id": "campinas_sat_16h00",
-              "location": "Campinas",
-              "description": "Como eu trato",
-              "speaker": "Prof. Dra. Peng Zhou"
-            },
-            {
-              "id": "são_paulo_sat_16h00",
-              "location": "São Paulo",
-              "description": "Climaterio e Menopausa com Medicina Chinesa",
-              "speaker": "Prof. Wilson Marino"
-            },
-            {
-              "id": "brasília_sat_16h00",
-              "location": "Brasília",
-              "description": "Fórmulas Chinesas no Tratamento de Dores Crônicas",
-              "speaker": "Prof. Leonardo Lombardi Silva"
-            }
-          ]
+          "description": "Como eu trato",
+          "speaker": "Prof. Dra. Peng Zhou"
         },
         {
           "id": "sat_17h00",
           "startTime": "17h00",
           "endTime": "18h00",
-          "description": [
-            {
-              "id": "campinas_sat_17h00",
-              "location": "Campinas",
-              "description": "Estudo de Acupuntura em Casos de Hemofilia",
-              "speaker": "Dra. Karen de Oliveira"
-            },
-            {
-              "id": "são_paulo_sat_17h00",
-              "location": "São Paulo",
-              "description": "Diagnóstico Radioestesico para Uso de Fórmulas Chinesas",
-              "speaker": "Prof. Sergio Areias"
-            },
-            {
-              "id": "brasília_sat_17h00",
-              "location": "Brasília",
-              "description": "Acupuntura Esoterica como Aprimoramento da Consciência",
-              "speaker": "Prof. Ubyrajara Graça Nery"
-            }
-          ]
+          "description": "Estudo de Acupuntura em Casos de Hemofilia",
+          "speaker": "Dra. Karen de Oliveira"
         },
         {
           "id": "sat_18h00",
@@ -305,26 +231,8 @@
           "id": "sun_13h30",
           "startTime": "13h30",
           "endTime": "14h30",
-          "description": [
-            {
-              "id": "campinas_sun_13h30",
-              "location": "Campinas",
-              "description": "Uso do Liu Wei na disfunção sexual",
-              "speaker": "Profa. Karine Calligaris"
-            },
-            {
-              "id": "são_paulo_sun_13h30",
-              "location": "São Paulo",
-              "description": "Uso do Liu Wei na disfunção sexual",
-              "speaker": "Profa. Karine Calligaris"
-            },
-            {
-              "id": "brasília_sun_13h30",
-              "location": "Brasília",
-              "description": "Tratamento de Psoriase com Fórmulas da MTC",
-              "speaker": "Prof. Fernando Braga"
-            }
-          ]
+          "description": "Uso do Liu Wei na disfunção sexual",
+          "speaker": "Profa. Karine Calligaris"
         },
         {
           "id": "sun_14h30",
@@ -368,8 +276,8 @@
     "installments": {
       "date": "10/08",
       "utc": "2020-08-10T00:00:00.000-03:00",
-      "before": 10,
-      "after": 6
+      "before": 6,
+      "after": 4
     },
     "coupon": "Rompendo Paradigmas",
     "locations": [
@@ -383,53 +291,13 @@
         ],
         "event": {
           "name": "Hotel Nacional Inn",
-          "address": "Av. Benedicto de Campos 35",
+          "address": "Av. Benedito de Campos, 35 - Jardim do Trevo, Campinas, SP",
           "phone": "(19) 3772-1400"
-        }
-      },
-      {
-        "id": "subscription_são_paulo",
-        "slug": "saopaulo",
-        "location": "São Paulo",
-        "dates": [
-          "13/03",
-          "14/03"
-        ],
-        "hotel": {
-          "name": "Nikkey Palace Hotel",
-          "url": "http://nikkeyhotel.com.br",
-          "address": "Rua Galvão 425 - Liberdade, São Paulo, SP",
-          "phone": "(11) 3207-8511"
-        },
-        "event": {
-          "atHotel": true
-        }
-      },
-      {
-        "id": "subscription_brasília",
-        "slug": "brasilia",
-        "location": "Brasília",
-        "dates": [
-          "20/03",
-          "21/03"
-        ],
-        "hotel": {
-          "name": "Hotel Quality",
-          "url": "http://atlanticahoteis.com.br",
-          "address": "SMAS trecho 3, Conjunto 2, Bloco A, Guará, DF",
-          "phone": "(61) 2196-6090"
-        },
-        "event": {
-          "name": "ParlaMundi The LGW",
-          "url": "http://fenixeventosdf.com.br",
-          "phone": "(61) 3346-8420",
-          "address": "SGAS 915, Setor de Grandes Áreas, Brasília, DF"
         }
       }
     ]
   },
   "institutes": [
-    "/images/logos/unicamp.jpg",
     "/images/logos/taijin.jpg",
     "/images/logos/sbcmtc.jpg",
     "/images/logos/uft.jpg",

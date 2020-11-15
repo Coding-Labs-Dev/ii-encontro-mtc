@@ -146,7 +146,7 @@ const Inscricao: NextPage<Props> = ({ subscriptions }) => {
           if (data.error) throw new Error('Erro ao recuperar parcelamento');
           const installments = data.installments[params.brand];
           installments.shift();
-          installments.splice(5);
+          installments.splice(3);
           setAvailableInstallments(installments);
           setFetching(false);
         } catch (error) {

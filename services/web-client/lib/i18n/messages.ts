@@ -8,7 +8,7 @@ const messages = {
     Text: '2020 – II Encontro Internacional de MTC',
   },
   Hero: {
-    Locations: 'Campinas – São Paulo – Brasília',
+    Locations: 'Campinas – Outras Cidades',
     Date: 'Março/2021',
     Title: 'II Encontro Internacional de MTC',
     Subtitle: 'Rompendo os Paradigmas da Saúde no Brasil pela M.T.C.',

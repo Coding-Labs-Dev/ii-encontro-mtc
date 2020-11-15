@@ -515,14 +515,6 @@ export const fields: { [key: string]: Array<Field> } = {
           value: 'campinas',
           label: 'Campinas',
         },
-        {
-          value: 'saopaulo',
-          label: 'São Paulo',
-        },
-        {
-          value: 'brasilia',
-          label: 'Brasília',
-        },
       ],
     },
   ],
