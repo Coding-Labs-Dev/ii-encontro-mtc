@@ -34,11 +34,6 @@ const PaymentPlanCard: React.FC<Props> = ({ values, location }) => {
     return undefined;
   }, [location, eventLocation]);
 
-  const hotelLocation: string = React.useMemo(() => {
-    if (location.hotel) return location.hotel.name;
-    return 'A definir';
-  }, [location]);
-
   return (
     <div className={bem.b()}>
       <Card elevation={2} className={bem.el('card')}>
