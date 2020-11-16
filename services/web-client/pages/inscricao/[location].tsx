@@ -537,8 +537,7 @@ export const getStaticPaths: GetStaticPaths = async () => ({
   fallback: false,
   paths: [
     { params: { location: 'campinas' } },
-    { params: { location: 'saopaulo' } },
-    { params: { location: 'brasilia' } },
+    { params: { location: 'online' } },
   ],
 });
 

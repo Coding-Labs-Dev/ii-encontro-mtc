@@ -39,16 +39,6 @@ const PaymentPlanCard: React.FC<Props> = ({ values, location }) => {
     return 'A definir';
   }, [location]);
 
-  const hotelUrl: string | undefined = React.useMemo(() => {
-    if (location.hotel) return location.hotel.url;
-    return undefined;
-  }, [location]);
-
-  const hotelPhone: string | undefined = React.useMemo(() => {
-    if (hotelLocation === 'A definir') return undefined;
-    return location.hotel?.phone;
-  }, [location, hotelLocation]);
-
   return (
     <div className={bem.b()}>
       <Card elevation={2} className={bem.el('card')}>
@@ -84,27 +74,6 @@ const PaymentPlanCard: React.FC<Props> = ({ values, location }) => {
                     eventLocation
                   )}
                 </Typography>
-              </Grid>
-            </Grid>
-            <Grid item container direction="column" alignItems="center">
-              <Grid item>
-                <Typography variant="subtitle2">Hotel sugerido</Typography>
-              </Grid>
-              <Grid item container direction="column" alignItems="center">
-                <Grid item>
-                  <Typography>
-                    {hotelUrl ? (
-                      <MUILink href={hotelUrl}>{hotelLocation}</MUILink>
-                    ) : (
-                      hotelLocation
-                    )}
-                  </Typography>
-                </Grid>
-                {hotelPhone && (
-                  <Grid item>
-                    <Typography variant="caption">{hotelPhone}</Typography>
-                  </Grid>
-                )}
               </Grid>
             </Grid>
             <Grid item container direction="column" alignItems="center">

@@ -6,6 +6,7 @@ import Title from 'components/Title';
 
 import DayButton from './DayButton';
 import ProgrammeTable from './ProgrammeTable';
+import DownloadProgramme from './DownloadProgramme';
 import { Schedule, Dates } from './ProgrammeTable/ProgrammeTable';
 
 import { Programme as ProgrammeType } from '../../types/models';
@@ -47,6 +48,9 @@ const Programme: React.FC<Props> = ({ programme }) => {
               schedule={schedule[selectedDay]}
               dates={dates[selectedDay]}
             />
+          </Grid>
+          <Grid item xs={12} container justify="center">
+            <DownloadProgramme />
           </Grid>
         </Grid>
       </Container>

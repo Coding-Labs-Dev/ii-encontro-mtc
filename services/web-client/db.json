@@ -294,6 +294,18 @@
           "address": "Av. Benedito de Campos, 35 - Jardim do Trevo, Campinas, SP",
           "phone": "(19) 3772-1400"
         }
+      },
+      {
+        "id": "subscription_online",
+        "slug": "online",
+        "location": "Online",
+        "dates": [
+          "06/03",
+          "07/03"
+        ],
+        "event": {
+          "name": "100% Online"
+        }
       }
     ]
   },
