@@ -4,7 +4,7 @@ encontromtc-prod:
     domain: ["encontro", "sbcmtc.com.br"]
     publicDirectoryCache:
       value: public, max-age=604800
-      test: /\.(gif|jpe?g|jp2|tiff|png|webp|bmp|svg|ico)$/i
+      test: /\.(gif|jpe?g|jp2|tiff|png|webp|bmp|svg|ico|pdf)$/i
     name:
       defaultLambda: encontromtcDefaultLambda
       apiLambda: encontromtcApiLambda
