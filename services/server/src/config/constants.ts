@@ -1,3 +1,5 @@
+import { CookieOptions } from 'express';
+
 export const NODE_ENV = process.env.NODE_ENV || '';
 export const AWS_ACCESS_KEY_ID = process.env.AWS_ACCESS_KEY_ID || '';
 export const AWS_SECRET_ACCESS_KEY = process.env.AWS_SECRET_ACCESS_KEY || '';
@@ -10,7 +12,9 @@ export const PAGSEGURO_NOTIFICATION = process.env.PAGSEGURO_NOTIFICATION || '';
 export const APP_KEY = process.env.APP_KEY || '';
 export const ROLLBAR_KEY = process.env.ROLLBAR_KEY || '';
 
-export const COOKIE_OPTIONS = {
+export const COOKIE_OPTIONS: CookieOptions = {
   httpOnly: true,
   maxAge: 3600000,
+  sameSite: 'lax',
+  secure: true,
 };

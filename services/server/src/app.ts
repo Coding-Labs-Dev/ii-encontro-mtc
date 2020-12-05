@@ -37,7 +37,7 @@ class App {
         },
       })
     );
-    this.server.use(cookieParser());
+    this.server.use(cookieParser('$2a$10$VSAg3NggGES334XnIAY.ue'));
     this.server.use(express.json());
     this.server.use(bodyParser.urlencoded({ extended: true }));
     this.server.use('/admin', AuthenticationMiddleware);

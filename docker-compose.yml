@@ -45,6 +45,7 @@ services:
       - "8080:8080"
     volumes:
       - ./services/admin-client:/usr/src/app
+      - ./.git:/usr/src/app/.git
       - /usr/src/app_node_modules/
     env_file: ./services/admin-client/.env
     entrypoint: yarn dev
