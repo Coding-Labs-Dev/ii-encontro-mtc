@@ -55,8 +55,10 @@ export default {
         Headers: {
           Name: 'Nome',
           CPF: 'CPF',
+          Local: 'Local',
           Email: 'E-mail',
           Phone: 'Telefone',
+          View: 'Visualizar',
         },
       },
     },
